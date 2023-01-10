@@ -1,7 +1,7 @@
 package com.example.testlocal;
 
-import com.example.testlocal.domain.entity.User;
-import com.example.testlocal.repository.UserRepository2;
+import com.example.testlocal.module.user.domain.entity.User;
+import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,8 +1,8 @@
 package com.example.testlocal.domain.entity;
 
 import com.example.testlocal.domain.dto.ChatbotDTO;
-import com.example.testlocal.service.ChatbotRoomService;
-import com.example.testlocal.service.UserService2;
+import com.example.testlocal.module.user.domain.entity.User;
+import com.example.testlocal.module.chatbot.application.service.ChatbotRoomService;
 import lombok.*;
 
 import javax.persistence.*;

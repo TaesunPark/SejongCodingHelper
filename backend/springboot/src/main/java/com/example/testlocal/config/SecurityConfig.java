@@ -1,7 +1,7 @@
 package com.example.testlocal.config;
 
-import com.example.testlocal.security.JwtAuthenticationFilter;
-import com.example.testlocal.security.JwtTokenProvider;
+import com.example.testlocal.core.security.JwtAuthenticationFilter;
+import com.example.testlocal.core.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
