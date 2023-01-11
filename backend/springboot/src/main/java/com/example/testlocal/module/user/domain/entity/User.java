@@ -18,8 +18,7 @@ import java.util.Collections;
 @Builder
 @Entity(name = "user")
 @Table(name = "user")
-public class User implements UserDetails {
-
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -42,36 +41,6 @@ public class User implements UserDetails {
         this.password = userDTO.getPassword();
         this.name = userDTO.getName();
         this.email = userDTO.getEmail();
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public String getUsername() {
-        return studentNumber;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
 }
