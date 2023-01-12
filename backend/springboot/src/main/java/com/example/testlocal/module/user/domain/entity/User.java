@@ -1,5 +1,6 @@
 package com.example.testlocal.module.user.domain.entity;
 
+import com.example.testlocal.config.DateTime;
 import com.example.testlocal.config.RoleType;
 import com.example.testlocal.domain.dto.UserDTO2;
 import lombok.*;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 @Getter
 @NoArgsConstructor
@@ -16,7 +18,7 @@ import java.util.Collections;
 @Builder
 @Entity(name = "user")
 @Table(name = "user")
-public class User{
+public class User extends DateTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,11 +46,9 @@ public class User{
         this.name = userDTO.getName();
         this.email = userDTO.getEmail();
     }
-
-    // 추가
+    
     @Setter
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
-
 
 }

@@ -4,15 +4,14 @@ import com.example.testlocal.module.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public interface UserRepository2 extends JpaRepository< User, Long> {
-    @Override
-    <S extends User> S save(S entity);
-
+@Repository
+public interface UserRepository2 extends JpaRepository<User, Long> {
     Optional<User> findByStudentNumber(String studentNumber);
 
     Optional<User> findByEmail(String email);

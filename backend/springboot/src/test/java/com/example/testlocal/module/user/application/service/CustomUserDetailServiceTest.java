@@ -29,4 +29,5 @@ class CustomUserDetailServiceTest {
         UserDetails userDetails = customUserDetailService.loadUserByUsername("17011526");
         assertThat(userDetails.getUsername()).isEqualTo("박태순");
     }
+
 }

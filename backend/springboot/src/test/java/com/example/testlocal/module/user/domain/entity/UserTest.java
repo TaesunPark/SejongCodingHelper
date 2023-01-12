@@ -23,12 +23,12 @@ class UserTest {
     @BeforeEach
     public void init(){
         user1 = User.builder().email("tovbskvb@daum.net").studentNumber("17011526").password("1234").name("손민기").roleType(RoleType.ADMIN).build();
+        user2 = userRepository.save(user1);
     }
 
     @DisplayName("유저 생성, 테스트")
     @Test
     public void create(){
-        user2 = userRepository.save(user1);
         assertThat(user1.getName()).isEqualTo(user2.getName());
         assertThat(user1.getId()).isEqualTo(user2.getId());
         assertThat(user1.getPassword()).isEqualTo(user2.getPassword());
@@ -36,17 +36,16 @@ class UserTest {
         assertThat(user1.getStudentNumber()).isEqualTo(user2.getStudentNumber());
         assertThat(user1.getEmail()).isEqualTo("tovbskvb@daum.net");
         assertThat(user1.getRoleType()).isEqualTo(RoleType.ADMIN);
+        assertThat(user2.getCreateAt()).isEqualTo(user2.getUpdateAt());
     }
 
     @DisplayName("유저 업데이트, 테스트")
     @Test
     public void update(){
-        user2 = userRepository.save(user1);
         user1.setEmail("tovbskvb1@daum.net");
         user1.setName("발민기");
         user1.setStudentNumber("17011568");
         user1.setRoleType(RoleType.USER);
-
         user2 = userRepository.save(user1);
         assertThat(user1.getName()).isEqualTo(user2.getName());
         assertThat(user1.getId()).isEqualTo(user2.getId());
