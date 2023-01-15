@@ -42,13 +42,3 @@ public class EmailConfig {
         return properties;
     }
 }
-//spring.mail.host=smtp.naver.com
-//spring.mail.port=465
-//# ?? naver ???? ??
-//spring.mail.username=sjcodinghelper@naver.com
-//spring.mail.password=sjcoding123!
-//#???? ?? prop?? ssl? ??, ?? ? ????
-//spring.mail.properties.smtp.auth=true
-//spring.mail.properties.smtp.ssl.enable=true
-//spring.mail.properties.smtp.ssl.trust=smtp.naver.com
-//spring.mail.protocol=smtps
