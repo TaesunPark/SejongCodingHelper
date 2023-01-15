@@ -1,19 +1,12 @@
 package com.example.testlocal.module.user.application.service;
 
-import com.example.testlocal.config.mail.EmailConfig;
-import com.example.testlocal.config.mail.TestConfig;
-import org.assertj.core.api.Assertions;
+
+import com.example.testlocal.config.mail.EmailTestConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -25,10 +18,9 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith({SpringExtension.class})
-@Import({TestConfig.class})
+@Import({EmailTestConfig.class})
 class EmailServiceTest {
 
     @InjectMocks
