@@ -46,7 +46,7 @@ public class User extends DateTime {
         this.name = userDTO.getName();
         this.email = userDTO.getEmail();
     }
-    
+
     @Setter
     @Enumerated(EnumType.STRING)
     private RoleType roleType;

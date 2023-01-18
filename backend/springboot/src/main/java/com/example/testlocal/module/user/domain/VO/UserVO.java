@@ -8,7 +8,6 @@ import java.util.Objects;
 @Getter
 @Builder
 public class UserVO {
-
     private String studentNumber;
 
     private String password;

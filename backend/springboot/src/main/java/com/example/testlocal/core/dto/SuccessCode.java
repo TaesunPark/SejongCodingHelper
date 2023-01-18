@@ -16,6 +16,7 @@ public enum SuccessCode {
      */
     OK_SUCCESS(OK, "성공입니다."),
     EMAIL_SUCCESS(OK, "이메일 보내기 성공입니다."),
+    EMAIL_CODE_SUCCESS(OK, "이메일 검증 성공입니다."),
     LOGIN_SUCCESS(OK, "로그인 성공입니다."),
     FIND_MBR_SUCCESS(OK, "멤버 조회 성공입니다."),
 

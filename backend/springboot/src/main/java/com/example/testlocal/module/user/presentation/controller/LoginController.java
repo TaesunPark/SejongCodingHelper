@@ -163,7 +163,6 @@ public class LoginController {
     @PostMapping("/search/pw")
     public String searchPw(@RequestBody Map<String, String> map) throws MessagingException {
         String result = userService.searchPw(map.get("studentNumber"),map.get("name"),map.get("email")  + "@sju.ac.kr");
-
         return result;
     }
 

@@ -3,10 +3,11 @@ package com.example.testlocal.module.user.presentation.controller;
 import com.example.testlocal.config.Constants;
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
-import com.example.testlocal.core.dto.SuccessStatusCode;
 import com.example.testlocal.domain.dto.ChatbotRoomDTO;
 import com.example.testlocal.domain.dto.UserDTO2;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
+import com.example.testlocal.module.user.application.dto.request.EmailCodeRequest;
+import com.example.testlocal.module.user.application.dto.response.EmailCodeResponse;
 import com.example.testlocal.module.user.application.dto.response.SendEmailResponse;
 import com.example.testlocal.module.user.application.service.EmailService;
 import com.example.testlocal.module.user.application.service.UserService;
@@ -16,21 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.Map;
-import java.util.Random;
 
 @Slf4j
 @RestController
@@ -53,16 +48,8 @@ public class SignupController {
     }
 
     @PostMapping("/checkEmailAuthCode")
-    public String checkEmailAuthCode(@RequestBody Map<String, String> map, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String authCode = (String) session.getAttribute("authCode");
-        String inputedAuthCode = map.get("authCode");
-        System.out.println(authCode + "," + inputedAuthCode);
-
-        if (authCode.equals(inputedAuthCode))
-            return "accepted";
-        else
-            return "fail";
+    public ResponseEntity<SuccessResponse<EmailCodeResponse>> checkEmailAuthCode(@RequestBody EmailCodeRequest emailCodeRequest, HttpServletRequest request) {
+        return SuccessResponse.success(SuccessCode.EMAIL_CODE_SUCCESS, emailService.checkEmailAuthCode(emailCodeRequest, request));
     }
 
     @PostMapping("/completeUserSignup")
