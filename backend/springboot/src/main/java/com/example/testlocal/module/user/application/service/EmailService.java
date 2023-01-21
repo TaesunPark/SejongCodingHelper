@@ -5,6 +5,8 @@ import com.example.testlocal.module.user.application.dto.SendEmailRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCodeRequest;
 import com.example.testlocal.module.user.application.dto.response.EmailCodeResponse;
 import com.example.testlocal.module.user.application.dto.response.SendEmailResponse;
+import com.example.testlocal.module.user.domain.repository.EmailCertificationDao;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,21 +23,20 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
+@RequiredArgsConstructor
 @Service
 public class EmailService{
     private final JavaMailSender javaMailService;
+    private final EmailCertificationDao emailCertificationDao;
 
     @Value("${spring.mail.username}")
     private String from;
 
-    public EmailService(JavaMailSender javaMailService) {
-        this.javaMailService = javaMailService;
-    }
-
     public SendEmailResponse sendSejongEmail(SendEmailRequest sendEmailRequest, HttpServletRequest request) throws MessagingException {
         String authCode = getAuthCode();
         sendEmail(sendEmailRequest.getEmail(), authCode);
-        setSession(request, authCode);
+        createCodeInRedis(sendEmailRequest.getEmail() + "@sju.ac.kr", authCode);
+        //setSession(request, authCode);
         return SendEmailResponse.of(sendEmailRequest.getEmail());
     }
 
@@ -69,6 +70,10 @@ public class EmailService{
 
         // 에러날 부분, 이미 Mail
         javaMailService.send(h.getMimeMessage());
+    }
+
+    public void createCodeInRedis(String email, String authCode){
+        emailCertificationDao.createCodeCertification(email, authCode);
     }
 
     public void setSession(HttpServletRequest request, String authCode){
