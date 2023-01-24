@@ -1,7 +1,7 @@
 package com.example.testlocal.module.user.presentation.controller;
 
 import com.example.testlocal.config.Constants;
-import com.example.testlocal.domain.dto.UserDTO2;
+import com.example.testlocal.module.user.application.dto.UserDto;
 import com.example.testlocal.module.user.application.service.UserService;
 import com.example.testlocal.module.user.application.service.UserService2;
 import com.example.testlocal.module.user.domain.entity.User;
@@ -43,7 +43,7 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/user")
-    public User createUser(@RequestBody UserDTO2 requestDTO) {
+    public User createUser(@RequestBody UserDto requestDTO) {
         return userService2.create(requestDTO);
     }
 

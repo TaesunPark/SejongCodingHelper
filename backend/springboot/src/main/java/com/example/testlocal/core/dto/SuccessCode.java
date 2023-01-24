@@ -20,6 +20,8 @@ public enum SuccessCode {
     EMAIL_DUPLICATED_CODE_SUCCESS(OK, "이메일 중복 검사 성공입니다."),
     LOGIN_SUCCESS(OK, "로그인 성공입니다."),
     FIND_MBR_SUCCESS(OK, "멤버 조회 성공입니다."),
+    SIGNUP_SUCCESS(OK, "회원가입 성공입니다.")
+    ,
 
     /**
      * 201 CREATED

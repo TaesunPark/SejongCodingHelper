@@ -1,9 +1,12 @@
 package com.example.testlocal.module.user.application.service;
 
+import com.example.testlocal.config.RoleType;
 import com.example.testlocal.core.exception.InvalidUserIdException;
 import com.example.testlocal.core.security.JwtTokenProvider;
-import com.example.testlocal.domain.dto.UserDTO2;
+import com.example.testlocal.module.user.application.dto.UserDto;
+import com.example.testlocal.module.user.application.dto.request.UserInfoRequest;
 import com.example.testlocal.module.user.application.dto.response.EmailCheckResponse;
+import com.example.testlocal.module.user.application.dto.response.UserInfoResponse;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +30,8 @@ public class UserService {
     private final UserRepository2 userRepository2;
     private final JavaMailSender javaMailSender;
 
-    public User create(UserDTO2 requestDTO) {
-        User user = new User(requestDTO);
+    public User create(UserDto requestDTO) {
+        User user = User.builder().email(requestDTO.getEmail()).name(requestDTO.getName()).password(requestDTO.getPassword()).studentNumber(requestDTO.getStudentNumber()).roleType(RoleType.USER).build();
         return userRepository2.save(user);
     }
 
@@ -50,11 +53,11 @@ public class UserService {
     }
 
     @Transactional
-    public Long signUp(UserDTO2 user) {
+    public UserInfoResponse signUp(UserInfoRequest userInfoRequest) {
         // pw를 암호화하는 과정
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        long id = userRepository2.save(user.toEntity()).getId();
-        return id;
+        userInfoRequest.setPwd(passwordEncoder.encode(userInfoRequest.getPwd()));
+        User user = User.builder().studentNumber(userInfoRequest.getStudentNumber()).name(userInfoRequest.getName()).email(userInfoRequest.getEmail()).password(userInfoRequest.getPwd()).build();
+        return UserInfoResponse.of(userInfoRequest.getStudentNumber(), true);
     }
 
     // id 중복체크

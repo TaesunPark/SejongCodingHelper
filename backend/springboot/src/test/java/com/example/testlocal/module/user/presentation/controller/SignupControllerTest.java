@@ -1,20 +1,20 @@
 package com.example.testlocal.module.user.presentation.controller;
 
+import com.example.testlocal.config.RoleType;
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
-import com.example.testlocal.domain.dto.UserDTO2;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
+import com.example.testlocal.module.user.application.dto.UserDto;
 import com.example.testlocal.module.user.application.dto.request.EmailCheckRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCodeRequest;
+import com.example.testlocal.module.user.application.dto.request.UserInfoRequest;
 import com.example.testlocal.module.user.application.dto.response.EmailCheckResponse;
 import com.example.testlocal.module.user.application.dto.response.EmailCodeResponse;
 import com.example.testlocal.module.user.application.dto.response.SendEmailResponse;
-import com.example.testlocal.module.user.application.service.UserService;
+import com.example.testlocal.module.user.application.dto.response.UserInfoResponse;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.EmailCertificationDao;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
-import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,6 @@ import javax.mail.MessagingException;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @WebAppConfiguration
 @SpringBootTest
@@ -83,8 +82,9 @@ class SignupControllerTest {
     @DisplayName("이메일 중복 컨트롤러 테스트, 중복 감지")
     @Test
     void checkDuplicatedEmailOverlap() {
-        UserDTO2 userDTO2 = new UserDTO2("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
-        userRepository.save(userDTO2.toEntity());
+        UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
+        User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
+        userRepository.save(user);
         EmailCheckRequest checkEmailRequest = new EmailCheckRequest();
         ResponseEntity<SuccessResponse<EmailCheckResponse>> result = signupController.checkEmailOverlap(checkEmailRequest);
         assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
@@ -94,28 +94,31 @@ class SignupControllerTest {
     @DisplayName("회원가입 완료 컨트롤러 테스트, 성공")
     @Test
     void completeUserSignup() {
-        HashMap map = new HashMap();
-        map.put("studentNumber", "17011526");
-        map.put("pwd", "1234");
-        map.put("name","박태순");
-        map.put("email","tovbskvb@sju.ac.kr");
-        String value = signupController.completeUserSignup(map);
-        assertThat(value).isEqualTo("accepted");
+        UserInfoRequest userInfoRequest = new UserInfoRequest();
+        userInfoRequest.setStudentNumber("17011526");
+        userInfoRequest.setEmail("tovbskvb@sju.ac.kr");
+        userInfoRequest.setName("박태순");
+        userInfoRequest.setPwd("1234");
+        ResponseEntity<SuccessResponse<UserInfoResponse>> result = signupController.completeUserSignup(userInfoRequest);
+        assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
+        assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.SIGNUP_SUCCESS.getMessage());
     }
 
     @DisplayName("회원가입 완료 컨트롤러 테스트, 실패")
     @Test
     void completeSignup_FAIL() {
-        UserDTO2 userDTO2 = new UserDTO2("17011527", "1234", "박태순", "tovbskvb@sju.ac.kr");
-        User user = new User(userDTO2);
+        UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
+        User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
         userRepository.save(user);
         HashMap map = new HashMap();
-        map.put("studentNumber", "17011527");
-        map.put("pwd", "1234");
-        map.put("name","박태순");
-        map.put("email","tovbskvb@sju.ac.kr");
-        String value = signupController.completeUserSignup(map);
-        assertThat(value).isEqualTo("denied");
+        UserInfoRequest userInfoRequest = new UserInfoRequest();
+        userInfoRequest.setStudentNumber("17011526");
+        userInfoRequest.setEmail("tovbskvb@sju.ac.kr");
+        userInfoRequest.setName("박태순");
+        userInfoRequest.setPwd("1234");
+        ResponseEntity<SuccessResponse<UserInfoResponse>> result = signupController.completeUserSignup(userInfoRequest);
+        assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
+        assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.SIGNUP_SUCCESS.getMessage());
     }
 
 

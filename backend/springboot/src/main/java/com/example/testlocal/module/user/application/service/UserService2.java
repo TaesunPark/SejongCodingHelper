@@ -1,8 +1,9 @@
 package com.example.testlocal.module.user.application.service;
 
+import com.example.testlocal.config.RoleType;
 import com.example.testlocal.core.exception.InvalidUserIdException;
 import com.example.testlocal.core.security.JwtTokenProvider;
-import com.example.testlocal.domain.dto.UserDTO2;
+import com.example.testlocal.module.user.application.dto.UserDto;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,8 @@ public class UserService2 {
     private final UserRepository2 userRepository2;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public User create(UserDTO2 requestDTO){
-        User user = new User(requestDTO);
+    public User create(UserDto userDto){
+        User user = User.builder().email(userDto.getEmail()).roleType(RoleType.USER).name(userDto.getName()).studentNumber(userDto.getStudentNumber()).build();
         return userRepository2.save(user);
     }
 

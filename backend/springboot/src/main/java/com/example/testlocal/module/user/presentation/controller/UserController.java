@@ -1,7 +1,7 @@
 package com.example.testlocal.module.user.presentation.controller;
 
 import com.example.testlocal.config.Constants;
-import com.example.testlocal.domain.dto.UserDTO2;
+import com.example.testlocal.module.user.application.dto.UserDto;
 import com.example.testlocal.module.user.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/user/signup")
-    public User signUp(@RequestBody UserDTO2 requestDTO) {
+    public User signUp(@RequestBody UserDto requestDTO) {
         return null;
     }
 

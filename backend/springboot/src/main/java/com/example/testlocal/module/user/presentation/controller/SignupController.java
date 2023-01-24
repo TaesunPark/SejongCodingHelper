@@ -3,15 +3,14 @@ package com.example.testlocal.module.user.presentation.controller;
 import com.example.testlocal.config.Constants;
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
-import com.example.testlocal.domain.dto.ChatbotRoomDTO;
-import com.example.testlocal.domain.dto.UserDTO2;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCheckRequest;
-import com.example.testlocal.module.user.application.dto.request.EmailCheckRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCodeRequest;
+import com.example.testlocal.module.user.application.dto.request.UserInfoRequest;
 import com.example.testlocal.module.user.application.dto.response.EmailCheckResponse;
 import com.example.testlocal.module.user.application.dto.response.EmailCodeResponse;
 import com.example.testlocal.module.user.application.dto.response.SendEmailResponse;
+import com.example.testlocal.module.user.application.dto.response.UserInfoResponse;
 import com.example.testlocal.module.user.application.service.EmailService;
 import com.example.testlocal.module.user.application.service.UserService;
 import com.example.testlocal.module.chatbot.application.service.ChatbotRoomService;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Slf4j
@@ -61,18 +59,13 @@ public class SignupController {
     }
 
     @PostMapping("/completeUserSignup")
-    public String completeUserSignup(@RequestBody Map<String, String> map) {
+    public ResponseEntity<SuccessResponse<UserInfoResponse>> completeUserSignup(@RequestBody UserInfoRequest userInfoRequest) {
 
-        //학번 중복 확인
-        if (userService.isOverlapStudentNumber(map.get("studentNumber"))) {
-            return "denied";
-        }
-        // db에 저장하는 구문
-        long id = userService.signUp(new UserDTO2(map.get("studentNumber"), map.get("pwd"), map.get("name"), map.get("email")));
-        System.out.println(id);
+//        userService.signUp(userInfoRequest);
+//        System.out.println(id);
         //chatbotRoomService.create(new ChatbotRoomDTO(id,4L,"C", "0"));
         //chatbotRoomService.create(new ChatbotRoomDTO(id,4L,"P", "0"));
-        return "accepted";
+        return SuccessResponse.success(SuccessCode.SIGNUP_SUCCESS, userService.signUp(userInfoRequest));
     }
 
     @PostMapping("/checkIdOverlap")

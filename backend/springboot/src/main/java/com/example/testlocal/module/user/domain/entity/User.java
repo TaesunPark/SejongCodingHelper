@@ -2,15 +2,9 @@ package com.example.testlocal.module.user.domain.entity;
 
 import com.example.testlocal.config.DateTime;
 import com.example.testlocal.config.RoleType;
-import com.example.testlocal.domain.dto.UserDTO2;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
 
 @Getter
 @NoArgsConstructor
@@ -25,29 +19,18 @@ public class User extends DateTime {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @Setter
-    @Column(name = "student_number", nullable = false)
+    @Column(name = "student_number", nullable = false, length = 8, unique = true)
     private String studentNumber;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 200, unique = true)
     private String password;
 
-    @Setter
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 40)
     private String name;
 
-    @Setter
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, length = 60, unique = true)
     private String email;
 
-    public User(UserDTO2 userDTO) {
-        this.studentNumber = userDTO.getStudentNumber();
-        this.password = userDTO.getPassword();
-        this.name = userDTO.getName();
-        this.email = userDTO.getEmail();
-    }
-
-    @Setter
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 

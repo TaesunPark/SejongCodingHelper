@@ -42,10 +42,7 @@ class UserTest {
     @DisplayName("유저 업데이트, 테스트")
     @Test
     public void update(){
-        user1.setEmail("tovbskvb1@daum.net");
-        user1.setName("발민기");
-        user1.setStudentNumber("17011568");
-        user1.setRoleType(RoleType.USER);
+        user1 = User.builder().email("tovbskvb1@daum.net").studentNumber("17011526").password("1234").name("손민기").roleType(RoleType.USER).build();
         user2 = userRepository.save(user1);
         assertThat(user1.getName()).isEqualTo(user2.getName());
         assertThat(user1.getId()).isEqualTo(user2.getId());
