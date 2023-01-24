@@ -4,7 +4,9 @@ import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
 import com.example.testlocal.domain.dto.UserDTO2;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
+import com.example.testlocal.module.user.application.dto.request.EmailCheckRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCodeRequest;
+import com.example.testlocal.module.user.application.dto.response.EmailCheckResponse;
 import com.example.testlocal.module.user.application.dto.response.EmailCodeResponse;
 import com.example.testlocal.module.user.application.dto.response.SendEmailResponse;
 import com.example.testlocal.module.user.application.service.UserService;
@@ -39,9 +41,6 @@ class SignupControllerTest {
     private EmailCertificationDao emailCertificationDao;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private UserRepository2 userRepository;
 
     @BeforeEach
@@ -74,10 +73,11 @@ class SignupControllerTest {
     @DisplayName("이메일 중복 확인 성공 컨트롤러 테스트")
     @Test
     void checkEmailOverlap() {
-        HashMap map = new HashMap();
-        map.put("email", "tovbskvb");
-        String value = signupController.checkEmailOverlap(map);
-        assertThat(value).isEqualTo("accepted");
+        EmailCheckRequest checkEmailRequest = new EmailCheckRequest();
+        checkEmailRequest.setEmail("tovbskvb");
+        ResponseEntity<SuccessResponse<EmailCheckResponse>> result = signupController.checkEmailOverlap(checkEmailRequest);
+        assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
+        assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS.getMessage());
     }
 
     @DisplayName("이메일 중복 컨트롤러 테스트, 중복 감지")
@@ -85,10 +85,10 @@ class SignupControllerTest {
     void checkDuplicatedEmailOverlap() {
         UserDTO2 userDTO2 = new UserDTO2("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
         userRepository.save(userDTO2.toEntity());
-        HashMap map = new HashMap();
-        map.put("email", "tovbskvb");
-        String value = signupController.checkEmailOverlap(map);
-        assertThat(value).isEqualTo("denied");
+        EmailCheckRequest checkEmailRequest = new EmailCheckRequest();
+        ResponseEntity<SuccessResponse<EmailCheckResponse>> result = signupController.checkEmailOverlap(checkEmailRequest);
+        assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
+        assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS.getMessage());
     }
 
     @DisplayName("회원가입 완료 컨트롤러 테스트, 성공")
