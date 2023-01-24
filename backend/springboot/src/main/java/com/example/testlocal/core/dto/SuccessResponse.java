@@ -17,6 +17,8 @@ public class SuccessResponse<T> {
     private String message;
     private T data;
 
+    //SuccessCode.EMAIL_SUCCESS, emailService.sendSejongEmail(sendEmailRequest, request)
+
     public static <T> ResponseEntity<SuccessResponse<T>> success(SuccessCode successCode, T data) {
         return ResponseEntity
                 .status(successCode.getStatus())

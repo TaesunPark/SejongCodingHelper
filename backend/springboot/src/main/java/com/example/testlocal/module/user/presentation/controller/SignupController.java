@@ -6,7 +6,10 @@ import com.example.testlocal.core.dto.SuccessResponse;
 import com.example.testlocal.domain.dto.ChatbotRoomDTO;
 import com.example.testlocal.domain.dto.UserDTO2;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
+import com.example.testlocal.module.user.application.dto.request.EmailCheckRequest;
+import com.example.testlocal.module.user.application.dto.request.EmailCheckRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCodeRequest;
+import com.example.testlocal.module.user.application.dto.response.EmailCheckResponse;
 import com.example.testlocal.module.user.application.dto.response.EmailCodeResponse;
 import com.example.testlocal.module.user.application.dto.response.SendEmailResponse;
 import com.example.testlocal.module.user.application.service.EmailService;
@@ -47,9 +50,14 @@ public class SignupController {
         return SuccessResponse.success(SuccessCode.EMAIL_SUCCESS, emailService.sendSejongEmail(sendEmailRequest, request));
     }
 
-    @PostMapping("/checkEmailAuthCode")
+    @PostMapping("/emailAuthCode")
     public ResponseEntity<SuccessResponse<EmailCodeResponse>> checkEmailAuthCode(@RequestBody EmailCodeRequest emailCodeRequest, HttpServletRequest request) {
         return SuccessResponse.success(SuccessCode.EMAIL_CODE_SUCCESS, emailService.checkEmailAuthCode(emailCodeRequest, request));
+    }
+
+    @PostMapping("/checkEmailOverlap")
+    public ResponseEntity<SuccessResponse<EmailCheckResponse>> checkEmailOverlap(@RequestBody EmailCheckRequest checkEmailRequest) {
+        return SuccessResponse.success(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS, userService.isOverlapEmail(checkEmailRequest.getEmail() + "@sju.ac.kr"));
     }
 
     @PostMapping("/completeUserSignup")
@@ -62,15 +70,8 @@ public class SignupController {
         // db에 저장하는 구문
         long id = userService.signUp(new UserDTO2(map.get("studentNumber"), map.get("pwd"), map.get("name"), map.get("email")));
         System.out.println(id);
-        chatbotRoomService.create(new ChatbotRoomDTO(id,4L,"C", "0"));
-        chatbotRoomService.create(new ChatbotRoomDTO(id,4L,"P", "0"));
-        return "accepted";
-    }
-
-    @PostMapping("/checkEmailOverlap")
-    public String checkEmailOverlap(@RequestBody Map<String, String> map) {
-        if (userService.isOverlapEmail(map.get("email") + "@sju.ac.kr"))
-            return "denied";
+        //chatbotRoomService.create(new ChatbotRoomDTO(id,4L,"C", "0"));
+        //chatbotRoomService.create(new ChatbotRoomDTO(id,4L,"P", "0"));
         return "accepted";
     }
 

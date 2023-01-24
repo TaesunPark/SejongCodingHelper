@@ -3,6 +3,7 @@ package com.example.testlocal.module.user.application.service;
 import com.example.testlocal.core.exception.InvalidUserIdException;
 import com.example.testlocal.core.security.JwtTokenProvider;
 import com.example.testlocal.domain.dto.UserDTO2;
+import com.example.testlocal.module.user.application.dto.response.EmailCheckResponse;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import lombok.RequiredArgsConstructor;
@@ -66,13 +67,14 @@ public class UserService {
     }
 
     // email 중복체크
-    public boolean isOverlapEmail(String email) {
+    public EmailCheckResponse isOverlapEmail(String email) {
         Optional<User> member = userRepository2.findByEmail(email);
 
         if (member.isPresent()) {
-            return true;
+            return EmailCheckResponse.of(email, true);
         }
-        return false;
+
+        return EmailCheckResponse.of(email, false);
     }
 
     public Map<String, String> login(Map<String, String> user) {

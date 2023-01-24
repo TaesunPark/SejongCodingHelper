@@ -41,8 +41,10 @@ public class EmailService{
     }
 
     public EmailCodeResponse checkEmailAuthCode(EmailCodeRequest emailCodeRequest, HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String authCode = (String) session.getAttribute("authCode");
+//        세션으로 하는 부분 주석 처리
+//        HttpSession session = request.getSession();
+//        String authCode = (String) session.getAttribute("authCode");
+        String authCode = emailCertificationDao.getCodeCertification(emailCodeRequest.getEmail());
         String inputedAuthCode = emailCodeRequest.getAuthCode();
 
         if (authCode.equals(inputedAuthCode)) {
