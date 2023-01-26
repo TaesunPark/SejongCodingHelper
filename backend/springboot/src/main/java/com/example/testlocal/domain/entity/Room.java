@@ -1,7 +1,7 @@
 package com.example.testlocal.domain.entity;
 
 import com.example.testlocal.domain.dto.RoomDTO;
-import com.example.testlocal.module.user.application.service.UserService2;
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,7 +40,7 @@ public class Room {
         this.updateDate = updateDate;
     }
 
-    public Room(RoomDTO requestDTO, UserService2 userService) {
+    public Room(RoomDTO requestDTO, UserService userService) {
         this.title = requestDTO.getTitle();
         this.updateDate = requestDTO.getUpdateDate();
         this.user = userService.findById(requestDTO.getUserId());

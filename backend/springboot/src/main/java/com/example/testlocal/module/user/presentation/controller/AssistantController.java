@@ -3,7 +3,7 @@ package com.example.testlocal.module.user.presentation.controller;
 import com.example.testlocal.config.Constants;
 import com.example.testlocal.domain.dto.AssistantDTO;
 import com.example.testlocal.domain.entity.Assistant;
-import com.example.testlocal.module.user.application.service.AssistantService;
+import com.example.testlocal.module.user.application.service.impl.AssistantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

@@ -1,8 +1,7 @@
 package com.example.testlocal.module.user.application.service;
 
 import com.example.testlocal.config.mail.EmailTestConfig;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Assumptions;
+import com.example.testlocal.module.user.application.service.impl.EmailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -4,7 +4,7 @@ import com.example.testlocal.domain.dto.ChatbotDTO;
 import com.example.testlocal.domain.entity.Chatbot;
 import com.example.testlocal.domain.vo.RenderScriptProcessor;
 import com.example.testlocal.module.chatbot.domain.repository.ChatbotRepository;
-import com.example.testlocal.module.user.application.service.UserService2;
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeoutException;
 @RequiredArgsConstructor
 public class ChatbotService {
     private final ChatbotRepository repository;
-    private final UserService2 userService;
+    private final UserService userService;
     private final ChatbotRoomService chatbotRoomService;
 
     public Chatbot create(ChatbotDTO chatbotDTO){

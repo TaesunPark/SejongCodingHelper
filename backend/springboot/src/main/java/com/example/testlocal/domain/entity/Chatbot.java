@@ -1,7 +1,7 @@
 package com.example.testlocal.domain.entity;
 
 import com.example.testlocal.domain.dto.ChatbotDTO;
-import com.example.testlocal.module.user.application.service.UserService2;
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.chatbot.application.service.ChatbotRoomService;
 import lombok.*;
@@ -42,7 +42,7 @@ public class Chatbot {
         this.recommends = recommends;
     }
 
-    public Chatbot(ChatbotDTO requestDTO, UserService2 userService, ChatbotRoomService roomService) {
+    public Chatbot(ChatbotDTO requestDTO, UserService userService, ChatbotRoomService roomService) {
         this.message = requestDTO.getMessage();
         this.createTime = requestDTO.getCreateTime();
         this.user = userService.findById(requestDTO.getUserId());

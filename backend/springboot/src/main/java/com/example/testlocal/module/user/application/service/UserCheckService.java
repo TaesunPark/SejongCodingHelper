@@ -4,5 +4,6 @@ import com.example.testlocal.module.user.application.dto.response.EmailCheckResp
 
 public interface UserCheckService {
 
-    public EmailCheckResponse isOverlapEmail(String email);
+    public Boolean isOverlapEmail(String email);
+    public Boolean isOverlapStudentNumber(String studentNumber);
 }

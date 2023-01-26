@@ -121,5 +121,4 @@ class SignupControllerTest {
         assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.SIGNUP_SUCCESS.getMessage());
     }
 
-
 }

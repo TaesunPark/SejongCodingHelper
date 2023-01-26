@@ -2,8 +2,7 @@ package com.example.testlocal.module.user.presentation.controller;
 
 import com.example.testlocal.config.Constants;
 import com.example.testlocal.module.user.application.dto.UserDto;
-import com.example.testlocal.module.user.application.service.UserService;
-import com.example.testlocal.module.user.application.service.UserService2;
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,35 +25,26 @@ import java.util.Optional;
 public class LoginController {
 
     private final UserService userService;
-    private final UserService2 userService2;
 
     @GetMapping("/user")
     public List<User> all() {
-        return userService2.read();
+        return userService.read();
     }
-
-   /* // 유저 생성
-    @PostMapping("/user")
-    @ResponseBody
-    public String hello(@RequestBody Map<String, String> map) {
-        userService2.create();
-        return "good";
-    }*/
 
     @ResponseBody
     @PostMapping("/user")
     public User createUser(@RequestBody UserDto requestDTO) {
-        return userService2.create(requestDTO);
+        return userService.create(requestDTO);
     }
 
     @GetMapping("/user/{id}")
     public Optional<User> getUser(@PathVariable Long id) {
-        return userService2.readOne(id);
+        return userService.readOne(id);
     }
 
     @DeleteMapping("/user/{id}")
     public String deleteUser(@PathVariable Long id) {
-        userService2.deleteAccount(id);
+        userService.deleteAccount(id);
         return "delete User" + id.toString();
     }
 
@@ -62,14 +52,14 @@ public class LoginController {
     @PostMapping("/user/assistant")
     public Map<String, Object> findIsAssistantByStudentNumber(@CookieValue(name = "refreshToken", defaultValue = "-1") String refreshToken) {
 
-        Map<String, Object> map = userService2.findByAssistant(refreshToken);
+        Map<String, Object> map = userService.findByAssistant(refreshToken);
         return map;
     }
 
 
     @PostMapping("/user/userID/{studentNumber}")
     public int findUserIdByStudentNumber(@PathVariable String studentNumber) {
-        return userService2.findUserIdByStudentNumber(studentNumber);
+        return userService.findUserIdByStudentNumber(studentNumber);
     }
 
     @PostMapping("/logincheck")
@@ -100,12 +90,6 @@ public class LoginController {
     @PostMapping("/refreshLoginToken")
     public String refreshLoginToken( @CookieValue(name = "refreshToken", defaultValue = "-1") String refreshToken,
                                     HttpServletResponse response) {
-
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
         String accessToken = "";
 

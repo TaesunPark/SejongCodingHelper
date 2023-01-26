@@ -11,9 +11,11 @@ public class UserInfoResponse {
 
     private String studentNumber;
     private Boolean isSuccessful;
+    private String message;
 
-    public static UserInfoResponse of(String studentNumber, Boolean isSuccessful) {
+    public static UserInfoResponse of(String studentNumber, Boolean isSuccessful, String message) {
         return UserInfoResponse.builder()
+                .message(message)
                 .isSuccessful(isSuccessful)
                 .studentNumber(studentNumber)
                 .build();

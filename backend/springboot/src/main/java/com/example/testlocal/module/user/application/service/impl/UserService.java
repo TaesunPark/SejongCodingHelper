@@ -7,6 +7,7 @@ import com.example.testlocal.module.user.application.dto.UserDto;
 import com.example.testlocal.module.user.application.dto.request.UserInfoRequest;
 import com.example.testlocal.module.user.application.dto.response.EmailCheckResponse;
 import com.example.testlocal.module.user.application.dto.response.UserInfoResponse;
+import com.example.testlocal.module.user.application.service.UserCheckService;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,8 @@ public class UserService {
     private final UserRepository2 userRepository2;
     private final JavaMailSender javaMailSender;
 
+    private final UserCheckService userCheckServiceImpl;
+
     public User create(UserDto requestDTO) {
         User user = User.builder().email(requestDTO.getEmail()).name(requestDTO.getName()).password(requestDTO.getPassword()).studentNumber(requestDTO.getStudentNumber()).roleType(RoleType.USER).build();
         return userRepository2.save(user);
@@ -43,8 +46,22 @@ public class UserService {
     public UserInfoResponse signUp(UserInfoRequest userInfoRequest) {
         // pw를 암호화하는 과정
         userInfoRequest.setPwd(passwordEncoder.encode(userInfoRequest.getPwd()));
-        User user = User.builder().studentNumber(userInfoRequest.getStudentNumber()).name(userInfoRequest.getName()).email(userInfoRequest.getEmail()).password(userInfoRequest.getPwd()).build();
-        return UserInfoResponse.of(userInfoRequest.getStudentNumber(), true);
+
+        // 이메일 중복 확인
+        Boolean isOverlapEmail = userCheckServiceImpl.isOverlapEmail(userInfoRequest.getEmail());
+
+        if (isOverlapEmail == false){
+            return UserInfoResponse.of(userInfoRequest.getStudentNumber(), false, "중복된 이메일이 있습니다.");
+        }
+
+        // 학번 중복 확인
+        Boolean isOverlapStudentNumber = userCheckServiceImpl.isOverlapStudentNumber(userInfoRequest.getStudentNumber());
+
+        if (isOverlapStudentNumber == false){
+            return UserInfoResponse.of(userInfoRequest.getStudentNumber(), false, "중복된 이메일이 있습니다.");
+        }
+
+        return UserInfoResponse.of(userInfoRequest.getStudentNumber(), true, "회원가입 성공하였습니다.");
     }
 
     public Map<String, String> login(Map<String, String> user) {

@@ -1,7 +1,7 @@
 package com.example.testlocal.domain.entity;
 
 import com.example.testlocal.domain.dto.ChatbotRoomDTO;
-import com.example.testlocal.module.user.application.service.UserService2;
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,7 +37,7 @@ public class ChatbotRoom {
     @JoinColumn(name = "user2_id", nullable = false)
     private User user2;
 
-    public ChatbotRoom(ChatbotRoomDTO requestDTO, UserService2 userService) {
+    public ChatbotRoom(ChatbotRoomDTO requestDTO, UserService userService) {
         this.title = requestDTO.getTitle();
         this.updateDate = requestDTO.getUpdateDate();
         this.user = userService.findById(requestDTO.getUserId());

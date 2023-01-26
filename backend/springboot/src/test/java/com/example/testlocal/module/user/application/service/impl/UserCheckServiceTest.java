@@ -35,8 +35,8 @@ class UserCheckServiceTest {
     @DisplayName("중복 이메일 테스트 성공")
     @Test
     public void isOverlapEmail(){
-        EmailCheckResponse emailCheckResponse = userCheckService.isOverlapEmail("tovbskvb@daum.net");
-        assertThat(emailCheckResponse.getIsDuplicated()).isEqualTo(true);
+        Boolean isOverlap = userCheckService.isOverlapEmail("tovbskvb@daum.net");
+        assertThat(isOverlap).isEqualTo(true);
     }
 
     @DisplayName("중복 이메일 테스트 실패")
@@ -45,7 +45,7 @@ class UserCheckServiceTest {
         UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
         User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
         userRepository.save(user);
-        EmailCheckResponse emailCheckResponse = userCheckService.isOverlapEmail("tovbskvb@sju.ac.kr");
-        assertThat(emailCheckResponse.getIsDuplicated()).isEqualTo(false);
+        Boolean isOverlap = userCheckService.isOverlapEmail("tovbskvb@sju.ac.kr");
+        assertThat(isOverlap).isEqualTo(false);
     }
 }

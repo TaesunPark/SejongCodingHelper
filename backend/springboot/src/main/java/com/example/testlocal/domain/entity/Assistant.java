@@ -1,7 +1,7 @@
 package com.example.testlocal.domain.entity;
 
 import com.example.testlocal.domain.dto.AssistantDTO;
-import com.example.testlocal.module.user.application.service.UserService2;
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +29,7 @@ public class Assistant {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Assistant(AssistantDTO requestDTO, UserService2 userService) {
+    public Assistant(AssistantDTO requestDTO, UserService userService) {
         this.studentNumber = requestDTO.getStudentNumber();
         this.user = userService.findById(requestDTO.getUserId());
     }

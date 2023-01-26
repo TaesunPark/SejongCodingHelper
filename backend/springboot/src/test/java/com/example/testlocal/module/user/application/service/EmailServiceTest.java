@@ -1,29 +1,19 @@
 package com.example.testlocal.module.user.application.service;
 
 
-import com.example.testlocal.config.mail.EmailTestConfig;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCodeRequest;
 import com.example.testlocal.module.user.application.dto.response.EmailCodeResponse;
 import com.example.testlocal.module.user.application.dto.response.SendEmailResponse;
+import com.example.testlocal.module.user.application.service.impl.EmailService;
 import com.example.testlocal.module.user.domain.repository.EmailCertificationDao;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
-import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

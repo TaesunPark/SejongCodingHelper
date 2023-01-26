@@ -3,9 +3,9 @@ package com.example.testlocal.module.chat.presentation.controller;
 import com.example.testlocal.config.Constants;
 import com.example.testlocal.domain.dto.ChatDTO2;
 import com.example.testlocal.domain.entity.Chat;
-import com.example.testlocal.module.user.application.service.UserService2;
 import com.example.testlocal.module.chat.application.service.ChatService;
 import com.example.testlocal.module.chat.application.service.RoomService;
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -25,7 +25,7 @@ public class ChatController {
     private final SimpMessagingTemplate template;
     private final RoomService roomService;
     private final ChatService chatService;
-    private final UserService2 userService;
+    private final UserService userService;
 
     @GetMapping("/chat")
     public List<Chat> all() { return chatService.findAll();}

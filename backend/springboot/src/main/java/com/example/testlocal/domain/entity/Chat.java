@@ -1,7 +1,8 @@
 package com.example.testlocal.domain.entity;
 
 import com.example.testlocal.domain.dto.ChatDTO2;
-import com.example.testlocal.module.user.application.service.UserService2;
+
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.chat.application.service.RoomService;
 import lombok.AllArgsConstructor;
@@ -41,7 +42,7 @@ public class Chat {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Chat(ChatDTO2 requestDTO, RoomService roomService, UserService2 userService) {
+    public Chat(ChatDTO2 requestDTO, RoomService roomService, UserService userService) {
         this.message = requestDTO.getMessage();
         this.createTime = requestDTO.getCreateTime();
         this.chatRead = requestDTO.getChatRead();

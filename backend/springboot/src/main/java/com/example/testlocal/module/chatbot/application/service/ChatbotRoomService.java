@@ -5,7 +5,8 @@ import com.example.testlocal.domain.entity.ChatbotRoom;
 import com.example.testlocal.core.exception.InvalidUserIdException;
 import com.example.testlocal.module.chatbot.domain.repository.ChatbotRoomRepository;
 import com.example.testlocal.core.security.JwtTokenProvider;
-import com.example.testlocal.module.user.application.service.UserService2;
+
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class ChatbotRoomService {
 
     private final ChatbotRoomRepository repository;
-    private final UserService2 userService;
+    private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
     public ChatbotRoom create(ChatbotRoomDTO roomDTO){

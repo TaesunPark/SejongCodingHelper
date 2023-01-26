@@ -4,7 +4,7 @@ import com.example.testlocal.domain.dto.ChatDTO2;
 import com.example.testlocal.domain.entity.Chat;
 import com.example.testlocal.core.exception.InvalidChatIdException;
 import com.example.testlocal.module.chat.domain.repository.ChatRepository;
-import com.example.testlocal.module.user.application.service.UserService2;
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.Map;
 public class ChatService {
 
     private final ChatRepository repository;
-    private final UserService2 userService;
+    private final UserService userService;
     private final RoomService roomService;
 
     public Chat create(ChatDTO2 chatDTO){

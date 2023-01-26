@@ -16,14 +16,18 @@ public class UserCheckServiceImpl implements UserCheckService {
 
     private final UserRepository2 userRepository;
     @Override
-    public EmailCheckResponse isOverlapEmail(String email) {
-
+    public Boolean isOverlapEmail(String email) {
         Boolean isPresented = userRepository.existsUserByEmail(email);
 
-        if (!isPresented) {
-            return EmailCheckResponse.of(email, true);
+        if (isPresented){
+            return false;
         }
+        return true;
+    }
 
-        return EmailCheckResponse.of(email, false);
+    @Override
+    public Boolean isOverlapStudentNumber(String studentNumber) {
+        Boolean isPresented = userRepository.existsUserByStudentNumber(studentNumber);
+        return isPresented;
     }
 }

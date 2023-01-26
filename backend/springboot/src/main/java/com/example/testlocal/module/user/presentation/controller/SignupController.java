@@ -11,8 +11,9 @@ import com.example.testlocal.module.user.application.dto.response.EmailCheckResp
 import com.example.testlocal.module.user.application.dto.response.EmailCodeResponse;
 import com.example.testlocal.module.user.application.dto.response.SendEmailResponse;
 import com.example.testlocal.module.user.application.dto.response.UserInfoResponse;
-import com.example.testlocal.module.user.application.service.EmailService;
-import com.example.testlocal.module.user.application.service.UserService;
+import com.example.testlocal.module.user.application.service.UserCheckService;
+import com.example.testlocal.module.user.application.service.impl.EmailService;
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.chatbot.application.service.ChatbotRoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,7 @@ public class SignupController {
     private final UserService userService;
     private final ChatbotRoomService chatbotRoomService;
     private final EmailService emailService;
+    private final UserCheckService userCheckServiceImpl;
 
     @Value("${spring.mail.username}")
     private String from;
@@ -55,22 +57,16 @@ public class SignupController {
 
     @PostMapping("/checkEmailOverlap")
     public ResponseEntity<SuccessResponse<EmailCheckResponse>> checkEmailOverlap(@RequestBody EmailCheckRequest checkEmailRequest) {
-        return SuccessResponse.success(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS, userService.isOverlapEmail(checkEmailRequest.getEmail() + "@sju.ac.kr"));
+        String email = checkEmailRequest.getEmail() + "@sju.ac.kr";
+        Boolean isPresented = userCheckServiceImpl.isOverlapEmail(email);
+        return SuccessResponse.success(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS, EmailCheckResponse.of(email, isPresented));
     }
 
     @PostMapping("/completeUserSignup")
     public ResponseEntity<SuccessResponse<UserInfoResponse>> completeUserSignup(@RequestBody UserInfoRequest userInfoRequest) {
-
-//        userService.signUp(userInfoRequest);
-//        System.out.println(id);
         //chatbotRoomService.create(new ChatbotRoomDTO(id,4L,"C", "0"));
         //chatbotRoomService.create(new ChatbotRoomDTO(id,4L,"P", "0"));
         return SuccessResponse.success(SuccessCode.SIGNUP_SUCCESS, userService.signUp(userInfoRequest));
-    }
-
-    @PostMapping("/checkIdOverlap")
-    public void checkIdOverlap(@RequestBody Map<String, String> map) {
-
     }
 
 }
