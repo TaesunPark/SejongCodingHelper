@@ -1,4 +1,4 @@
-package com.example.testlocal.module.user.application.service;
+package com.example.testlocal.module.user.application.service.impl;
 
 import com.example.testlocal.domain.dto.AssistantDTO;
 import com.example.testlocal.domain.dto.ChatDTO2;
@@ -21,7 +21,7 @@ import java.util.List;
 public class AssistantService {
 
     final private AssistantRepository assistantRepository;
-    final private UserService2 userService;
+    final private UserService userService;
     final private RoomService roomService;
     private final ChatService chatService;
     private final JwtTokenProvider jwtTokenProvider;

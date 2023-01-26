@@ -1,4 +1,4 @@
-package com.example.testlocal.module.user.application.service;
+package com.example.testlocal.module.user.application.service.impl;
 
 import com.example.testlocal.config.RoleType;
 import com.example.testlocal.core.exception.InvalidUserIdException;
@@ -35,19 +35,6 @@ public class UserService {
         return userRepository2.save(user);
     }
 
-    // 전체 유저 읽기
-    public List<User> read() {
-        return userRepository2.findAll();
-    }
-
-    public Optional<User> readOne(Long id) {
-        return userRepository2.findById(id);
-    }
-
-    public void deleteAccount(Long id) {
-        userRepository2.deleteById(id);
-    }
-
     public User findById(Long id) {
         return userRepository2.findById(id).orElseThrow(() -> new InvalidUserIdException());
     }
@@ -58,26 +45,6 @@ public class UserService {
         userInfoRequest.setPwd(passwordEncoder.encode(userInfoRequest.getPwd()));
         User user = User.builder().studentNumber(userInfoRequest.getStudentNumber()).name(userInfoRequest.getName()).email(userInfoRequest.getEmail()).password(userInfoRequest.getPwd()).build();
         return UserInfoResponse.of(userInfoRequest.getStudentNumber(), true);
-    }
-
-    // id 중복체크
-    public boolean isOverlapStudentNumber(String studentNumber) {
-        Optional<User> member = userRepository2.findByStudentNumber(studentNumber);
-        if (member.isPresent()) {
-            return true;
-        }
-        return false;
-    }
-
-    // email 중복체크
-    public EmailCheckResponse isOverlapEmail(String email) {
-        Optional<User> member = userRepository2.findByEmail(email);
-
-        if (member.isPresent()) {
-            return EmailCheckResponse.of(email, true);
-        }
-
-        return EmailCheckResponse.of(email, false);
     }
 
     public Map<String, String> login(Map<String, String> user) {
@@ -215,5 +182,43 @@ public class UserService {
 
         return buffer.toString();
     }
+
+    // 전체 유저 읽기
+    public List<User> read(){
+        return userRepository2.findAll();
+    }
+
+    public Optional<User> readOne(Long id){
+        return userRepository2.findById(id);
+    }
+
+    public void deleteAccount(Long id) {
+        userRepository2.deleteById(id);
+    }
+
+    public Map<String, Object> findByAssistant(String refreshToken){
+        String studentNumber = jwtTokenProvider.getUserPk(refreshToken);
+        List<Map<String, Object>> assistantDTO2 = userRepository2.findIsAssistantByStudentNumber(studentNumber);
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", assistantDTO2.get(0).get("name"));
+        map.put("isAssistant", assistantDTO2.get(1).get("name"));
+        map.put("studentNumber",studentNumber);
+        map.put("email",findUserEmailByStudentNumber(studentNumber));
+        map.put("id", findUserIdByStudentNumber(studentNumber));
+        return map;
+    }
+
+    public int findUserIdByStudentNumber(String studentNumber){
+        try{
+            return userRepository2.findUserIdByStudentNumber(studentNumber);
+        }catch(Exception e){
+            return 0;
+        }
+    }
+
+    public String findUserEmailByStudentNumber(String studentNumber){
+        return userRepository2.findUserEmailByStudentNumber(studentNumber);
+    }
+
 
 }

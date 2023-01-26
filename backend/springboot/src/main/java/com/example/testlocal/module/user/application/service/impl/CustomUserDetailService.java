@@ -1,4 +1,4 @@
-package com.example.testlocal.module.user.application.service;
+package com.example.testlocal.module.user.application.service.impl;
 
 import com.example.testlocal.core.security.CustomUserDetails;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
