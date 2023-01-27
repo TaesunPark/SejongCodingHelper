@@ -50,6 +50,5 @@ class EmailServiceTest {
         emailCertificationDao.createCodeCertification(emailCodeRequest.getEmail(), "12345");
         EmailCodeResponse emailCodeResponse = emailService.checkEmailAuthCode(emailCodeRequest, null);
         assertThat(emailCodeResponse.getAuthCode()).isEqualTo("12345");
-        assertThat(emailCodeResponse.getIsSuccessful()).isEqualTo(true);
     }
 }

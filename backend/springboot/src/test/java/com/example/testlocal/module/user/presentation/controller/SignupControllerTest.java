@@ -3,6 +3,8 @@ package com.example.testlocal.module.user.presentation.controller;
 import com.example.testlocal.config.RoleType;
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
+import com.example.testlocal.core.exception.ErrorCode;
+import com.example.testlocal.core.exception.NotFoundException;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
 import com.example.testlocal.module.user.application.dto.UserDto;
 import com.example.testlocal.module.user.application.dto.request.EmailCheckRequest;
@@ -15,6 +17,7 @@ import com.example.testlocal.module.user.application.dto.response.UserInfoRespon
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.EmailCertificationDao;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,6 +32,7 @@ import javax.mail.MessagingException;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @WebAppConfiguration
 @SpringBootTest
@@ -69,14 +73,26 @@ class SignupControllerTest {
         assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.EMAIL_CODE_SUCCESS.getMessage());
     }
 
+    @DisplayName("이메일 코드 검증 실패 컨트롤러 테스트")
+    @Test
+    void checkEmailAuthCode_FAIL() {
+        emailCertificationDao.createCodeCertification("tovbskvb@sju.ac.kr", "123456");
+        EmailCodeRequest emailCodeRequest = new EmailCodeRequest();
+        emailCodeRequest.setEmail("tovbskvb@sju.ac.kr");
+        emailCodeRequest.setAuthCode("123457");
+        assertThrows(NotFoundException.class,()
+                -> signupController.checkEmailAuthCode(emailCodeRequest, null)
+        );
+    }
+
     @DisplayName("이메일 중복 확인 성공 컨트롤러 테스트")
     @Test
     void checkEmailOverlap() {
         EmailCheckRequest checkEmailRequest = new EmailCheckRequest();
         checkEmailRequest.setEmail("tovbskvb");
-        ResponseEntity<SuccessResponse<EmailCheckResponse>> result = signupController.checkEmailOverlap(checkEmailRequest);
-        assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
-        assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS.getMessage());
+        assertThrows(NotFoundException.class,()
+                -> signupController.checkEmailOverlap(checkEmailRequest)
+        );
     }
 
     @DisplayName("이메일 중복 컨트롤러 테스트, 중복 감지")
@@ -99,6 +115,7 @@ class SignupControllerTest {
         userInfoRequest.setEmail("tovbskvb@sju.ac.kr");
         userInfoRequest.setName("박태순");
         userInfoRequest.setPwd("1234");
+        userInfoRequest.setVerifedPwd("1234");
         ResponseEntity<SuccessResponse<UserInfoResponse>> result = signupController.completeUserSignup(userInfoRequest);
         assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
         assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.SIGNUP_SUCCESS.getMessage());
@@ -116,6 +133,7 @@ class SignupControllerTest {
         userInfoRequest.setEmail("tovbskvb@sju.ac.kr");
         userInfoRequest.setName("박태순");
         userInfoRequest.setPwd("1234");
+        userInfoRequest.setVerifedPwd("1234");
         ResponseEntity<SuccessResponse<UserInfoResponse>> result = signupController.completeUserSignup(userInfoRequest);
         assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
         assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.SIGNUP_SUCCESS.getMessage());
