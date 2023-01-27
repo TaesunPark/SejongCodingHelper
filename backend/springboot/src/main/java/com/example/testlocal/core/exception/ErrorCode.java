@@ -31,6 +31,9 @@ public enum ErrorCode {
      * 404 Not Found
      */
     NOT_FOUND_EXCEPTION(NOT_FOUND, "존재하지 않습니다."),
+    NOT_FOUND_USER_EXCEPTION(NOT_FOUND, "탈퇴했거나 존재하지 않는 유저입니다."),
+
+    NOT_FOUND_AUTHCODE__EXCEPTION(NOT_FOUND, "잘못된 인증 번호 입니다."),
 
     /**
      * 409 Conflict
