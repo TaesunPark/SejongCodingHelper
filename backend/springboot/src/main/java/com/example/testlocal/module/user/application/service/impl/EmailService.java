@@ -1,6 +1,8 @@
 package com.example.testlocal.module.user.application.service.impl;
 
 import com.example.testlocal.core.dto.SuccessResponse;
+import com.example.testlocal.core.exception.ErrorCode;
+import com.example.testlocal.core.exception.NotFoundException;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCodeRequest;
 import com.example.testlocal.module.user.application.dto.response.EmailCodeResponse;
@@ -47,11 +49,12 @@ public class EmailService{
         String authCode = emailCertificationDao.getCodeCertification(emailCodeRequest.getEmail());
         String inputedAuthCode = emailCodeRequest.getAuthCode();
 
-        if (authCode.equals(inputedAuthCode)) {
-            return EmailCodeResponse.of(authCode, true);
+        if (!authCode.equals(inputedAuthCode)) {
+            throw new NotFoundException(String.format("존재하지 않는 검증 코드 (%s) 입니다", emailCodeRequest.getAuthCode()),
+                    ErrorCode.NOT_FOUND_AUTHCODE__EXCEPTION);
         }
 
-        return EmailCodeResponse.of(authCode, false);
+        return new EmailCodeResponse(authCode);
     }
 
     public void sendEmail(String email, String authCode) throws MessagingException {
