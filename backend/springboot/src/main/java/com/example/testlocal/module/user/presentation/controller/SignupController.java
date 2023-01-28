@@ -3,6 +3,9 @@ package com.example.testlocal.module.user.presentation.controller;
 import com.example.testlocal.config.Constants;
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
+import com.example.testlocal.core.exception.ConflictException;
+import com.example.testlocal.core.exception.ErrorCode;
+import com.example.testlocal.core.exception.NotFoundException;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCheckRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCodeRequest;
@@ -59,7 +62,12 @@ public class SignupController {
     public ResponseEntity<SuccessResponse<EmailCheckResponse>> checkEmailOverlap(@RequestBody EmailCheckRequest checkEmailRequest) {
         String email = checkEmailRequest.getEmail() + "@sju.ac.kr";
         Boolean isPresented = userCheckServiceImpl.isOverlapEmail(email);
-        return SuccessResponse.success(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS, EmailCheckResponse.of(email, isPresented));
+
+        if (!isPresented){
+            throw new ConflictException(String.format("이미 존재하는 이메일 (%s) 입니다", checkEmailRequest.getEmail()),
+                    ErrorCode.CONFLICT_EMAIL_EXCEPTION);
+        }
+        return SuccessResponse.success(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS, new EmailCheckResponse(email));
     }
 
     @PostMapping("/completeUserSignup")

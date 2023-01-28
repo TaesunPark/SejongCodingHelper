@@ -39,7 +39,7 @@ public enum ErrorCode {
      * 409 Conflict
      */
     CONFLICT_EXCEPTION(CONFLICT, "이미 존재합니다."),
-    
+
     CONFLICT_EMAIL_EXCEPTION(CONFLICT, "이미 존재합니다."),
 
     /**
