@@ -3,6 +3,7 @@ package com.example.testlocal.module.user.presentation.controller;
 import com.example.testlocal.config.RoleType;
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
+import com.example.testlocal.core.exception.ConflictException;
 import com.example.testlocal.core.exception.ErrorCode;
 import com.example.testlocal.core.exception.NotFoundException;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
@@ -90,9 +91,9 @@ class SignupControllerTest {
     void checkEmailOverlap() {
         EmailCheckRequest checkEmailRequest = new EmailCheckRequest();
         checkEmailRequest.setEmail("tovbskvb");
-        assertThrows(NotFoundException.class,()
-                -> signupController.checkEmailOverlap(checkEmailRequest)
-        );
+        ResponseEntity<SuccessResponse<EmailCheckResponse>> result = signupController.checkEmailOverlap(checkEmailRequest);
+        assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
+        assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS.getMessage());
     }
 
     @DisplayName("이메일 중복 컨트롤러 테스트, 중복 감지")
@@ -102,9 +103,8 @@ class SignupControllerTest {
         User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
         userRepository.save(user);
         EmailCheckRequest checkEmailRequest = new EmailCheckRequest();
-        ResponseEntity<SuccessResponse<EmailCheckResponse>> result = signupController.checkEmailOverlap(checkEmailRequest);
-        assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
-        assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS.getMessage());
+        checkEmailRequest.setEmail("tovbskvb");
+        assertThrows(ConflictException.class, () -> signupController.checkEmailOverlap(checkEmailRequest));
     }
 
     @DisplayName("회원가입 완료 컨트롤러 테스트, 성공")
