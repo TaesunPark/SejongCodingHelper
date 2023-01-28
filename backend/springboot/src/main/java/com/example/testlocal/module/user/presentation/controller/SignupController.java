@@ -67,6 +67,7 @@ public class SignupController {
             throw new ConflictException(String.format("이미 존재하는 이메일 (%s) 입니다", checkEmailRequest.getEmail()),
                     ErrorCode.CONFLICT_EMAIL_EXCEPTION);
         }
+
         return SuccessResponse.success(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS, new EmailCheckResponse(email));
     }
 

@@ -1,7 +1,10 @@
 package com.example.testlocal.module.user.application.service.impl;
 
 import com.example.testlocal.config.RoleType;
+import com.example.testlocal.core.exception.ConflictException;
+import com.example.testlocal.core.exception.ErrorCode;
 import com.example.testlocal.core.exception.InvalidUserIdException;
+import com.example.testlocal.core.exception.UnauthorizedException;
 import com.example.testlocal.core.security.JwtTokenProvider;
 import com.example.testlocal.module.user.application.dto.UserDto;
 import com.example.testlocal.module.user.application.dto.request.UserInfoRequest;
@@ -11,6 +14,7 @@ import com.example.testlocal.module.user.application.service.UserCheckService;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,21 +48,29 @@ public class UserService {
 
     @Transactional
     public UserInfoResponse signUp(UserInfoRequest userInfoRequest) {
+
+        // 비밀번호 일치 확인
+        if (!userInfoRequest.getVerifedPwd().equals(userInfoRequest.getPwd())){
+            throw new UnauthorizedException(String.format("비밀번호와 비밀번호 확인 값이 다릅니다."), ErrorCode.UNAUTHORIZED_EXCEPTION);
+        }
+
         // pw를 암호화하는 과정
         userInfoRequest.setPwd(passwordEncoder.encode(userInfoRequest.getPwd()));
 
         // 이메일 중복 확인
         Boolean isOverlapEmail = userCheckServiceImpl.isOverlapEmail(userInfoRequest.getEmail());
 
-        if (isOverlapEmail == false){
-            return UserInfoResponse.of(userInfoRequest.getStudentNumber(), false, "중복된 이메일이 있습니다.");
+        if (!isOverlapEmail){
+            throw new ConflictException(String.format("이미 존재하는 이메일 (%s) 입니다", userInfoRequest.getEmail()),
+                    ErrorCode.CONFLICT_EMAIL_EXCEPTION);
         }
 
         // 학번 중복 확인
         Boolean isOverlapStudentNumber = userCheckServiceImpl.isOverlapStudentNumber(userInfoRequest.getStudentNumber());
 
-        if (isOverlapStudentNumber == false){
-            return UserInfoResponse.of(userInfoRequest.getStudentNumber(), false, "중복된 이메일이 있습니다.");
+        if (!isOverlapStudentNumber){
+            throw new ConflictException(String.format("이미 존재하는 학번 (%s) 입니다", userInfoRequest.getStudentNumber()),
+                    ErrorCode.CONFLICT_STUDENT_NUMBER_EXCEPTION);
         }
 
         return UserInfoResponse.of(userInfoRequest.getStudentNumber(), true, "회원가입 성공하였습니다.");

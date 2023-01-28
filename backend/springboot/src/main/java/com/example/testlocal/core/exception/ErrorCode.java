@@ -21,6 +21,7 @@ public enum ErrorCode {
      * 401 UnAuthorized
      */
     UNAUTHORIZED_EXCEPTION(UNAUTHORIZED, "토큰이 만료되었습니다. 다시 로그인 해주세요."),
+    UNAUTHORIZED_PASSWORD_EXCEPTION(UNAUTHORIZED, "비밀번호와 비밀번호 확인 값이 다릅니다."),
 
     /**
      * 403 Forbidden
@@ -40,7 +41,9 @@ public enum ErrorCode {
      */
     CONFLICT_EXCEPTION(CONFLICT, "이미 존재합니다."),
 
-    CONFLICT_EMAIL_EXCEPTION(CONFLICT, "이미 존재합니다."),
+    CONFLICT_EMAIL_EXCEPTION(CONFLICT, "이미 존재하는 이메일 입니다."),
+
+    CONFLICT_STUDENT_NUMBER_EXCEPTION(CONFLICT, "이미 존재하는 학번 입니다."),
 
     /**
      * 500 Internal Server Exception
