@@ -6,6 +6,7 @@ import com.example.testlocal.core.dto.SuccessResponse;
 import com.example.testlocal.core.exception.ConflictException;
 import com.example.testlocal.core.exception.ErrorCode;
 import com.example.testlocal.core.exception.NotFoundException;
+import com.example.testlocal.core.exception.UnauthorizedException;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
 import com.example.testlocal.module.user.application.dto.UserDto;
 import com.example.testlocal.module.user.application.dto.request.EmailCheckRequest;
@@ -121,22 +122,49 @@ class SignupControllerTest {
         assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.SIGNUP_SUCCESS.getMessage());
     }
 
-    @DisplayName("회원가입 완료 컨트롤러 테스트, 실패")
+    @DisplayName("회원가입 완료 컨트롤러 테스트, 실패, 이메일 중복")
     @Test
-    void completeSignup_FAIL() {
+    void 회원가입_실패_이메일_중복() {
         UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
         User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
         userRepository.save(user);
-        HashMap map = new HashMap();
         UserInfoRequest userInfoRequest = new UserInfoRequest();
-        userInfoRequest.setStudentNumber("17011526");
+        userInfoRequest.setStudentNumber("17011527");
         userInfoRequest.setEmail("tovbskvb@sju.ac.kr");
         userInfoRequest.setName("박태순");
         userInfoRequest.setPwd("1234");
         userInfoRequest.setVerifedPwd("1234");
-        ResponseEntity<SuccessResponse<UserInfoResponse>> result = signupController.completeUserSignup(userInfoRequest);
-        assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
-        assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.SIGNUP_SUCCESS.getMessage());
+        assertThrows(ConflictException.class, () -> signupController.completeUserSignup(userInfoRequest));
+    }
+
+    @DisplayName("회원가입 완료 컨트롤러 테스트, 실패, 비밀번호확인 잘 못 입력")
+    @Test
+    void 회원가입_실패_비밀번호확인_잘_못_입력() {
+        UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
+        User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
+        userRepository.save(user);
+        UserInfoRequest userInfoRequest = new UserInfoRequest();
+        userInfoRequest.setStudentNumber("17011527");
+        userInfoRequest.setEmail("tovbskvb1@sju.ac.kr");
+        userInfoRequest.setName("박태순");
+        userInfoRequest.setPwd("1234");
+        userInfoRequest.setVerifedPwd("1235");
+        assertThrows(UnauthorizedException.class, () -> signupController.completeUserSignup(userInfoRequest));
+    }
+
+    @DisplayName("회원가입 완료 컨트롤러 테스트, 실패, 학번 중복")
+    @Test
+    void 회원가입_실패_학번_중복() {
+        UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
+        User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
+        userRepository.save(user);
+        UserInfoRequest userInfoRequest = new UserInfoRequest();
+        userInfoRequest.setStudentNumber("17011526");
+        userInfoRequest.setEmail("tovbskvb1@sju.ac.kr");
+        userInfoRequest.setName("박태순");
+        userInfoRequest.setPwd("1234");
+        userInfoRequest.setVerifedPwd("1234");
+        assertThrows(ConflictException.class, () -> signupController.completeUserSignup(userInfoRequest));
     }
 
 }
