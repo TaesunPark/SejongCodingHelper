@@ -1,4 +1,4 @@
-package com.example.testlocal.core.security.dto;
+package com.example.testlocal.core.security.Jwt.dto;
 
 public class JwtTokenDto {
     String refreshToken;

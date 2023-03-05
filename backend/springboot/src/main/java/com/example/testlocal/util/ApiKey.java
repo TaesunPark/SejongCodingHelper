@@ -1,4 +1,4 @@
-package com.example.testlocal.config;
+package com.example.testlocal.util;
 
 
 import lombok.Getter;

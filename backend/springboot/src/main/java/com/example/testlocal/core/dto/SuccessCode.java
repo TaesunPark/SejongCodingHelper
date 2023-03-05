@@ -22,6 +22,8 @@ public enum SuccessCode {
     FIND_MBR_SUCCESS(OK, "멤버 조회 성공입니다."),
     SIGNUP_SUCCESS(OK, "회원가입 성공입니다.")
     ,
+    CHAT_GPT_MESSAGE_STUDENT_ID_SUCCESS(OK, "학번으로 CHATGPT 채팅 불러오기 성공입니다.")
+    ,
 
     /**
      * 201 CREATED
