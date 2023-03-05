@@ -1,4 +1,4 @@
-package com.example.testlocal.module.user.application.dto.response;
+package com.example.testlocal.module.user.application.dto.signup.response;
 
 import lombok.*;
 
@@ -6,7 +6,6 @@ import lombok.*;
 @Getter
 public class EmailCheckResponse {
     private String email;
-
     public EmailCheckResponse(String email){
         this.email = email;
     }

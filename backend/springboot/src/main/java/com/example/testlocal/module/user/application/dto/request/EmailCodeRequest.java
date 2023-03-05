@@ -1,4 +1,4 @@
-package com.example.testlocal.module.user.application.dto.request;
+package com.example.testlocal.module.user.application.dto.signup.request;
 
 import lombok.Data;
 

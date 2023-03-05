@@ -1,4 +1,4 @@
-package com.example.testlocal.module.user.application.dto;
+package com.example.testlocal.module.user.application.dto.signup;
 
 
 import javax.servlet.http.HttpServletRequest;

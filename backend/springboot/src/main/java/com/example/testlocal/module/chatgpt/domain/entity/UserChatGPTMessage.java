@@ -3,12 +3,14 @@ package com.example.testlocal.module.chatgpt.domain.entity;
 import com.example.testlocal.config.DateTime;
 import com.example.testlocal.module.user.domain.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Getter
 @Entity
 @Table(name = "user_chatgpt_message")
 public class UserChatGPTMessage extends DateTime{

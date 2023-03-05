@@ -1,4 +1,4 @@
-package com.example.testlocal.module.user.application.dto.response;
+package com.example.testlocal.module.user.application.dto.signup.response;
 
 import lombok.*;
 

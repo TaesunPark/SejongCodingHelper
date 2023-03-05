@@ -33,6 +33,7 @@ public class JwtTokenProvider {
 
         Claims claims = Jwts.claims().setSubject(userPk);
         Date now = new Date();
+
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
                 .setIssuedAt(now) // 토큰 발행 시간 정보

@@ -1,11 +1,11 @@
 package com.example.testlocal.module.chatgpt.presentation;
 
 import com.example.testlocal.config.Constants;
+import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
-import com.example.testlocal.domain.entity.Chat;
+import com.example.testlocal.core.security.service.JwtTokenService;
 import com.example.testlocal.module.chatgpt.application.ChatGPTMessageService;
 import com.example.testlocal.module.chatgpt.application.dto.response.ChatsByStudentIdResponse;
-import com.example.testlocal.module.user.application.dto.response.EmailCheckResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,14 +17,17 @@ import java.util.List;
 public class ChatGPTMessageController {
 
     private final ChatGPTMessageService chatGPTMessageService;
+    private final JwtTokenService jwtTokenService;
 
-    public ChatGPTMessageController(ChatGPTMessageService chatGPTMessageService) {
+    public ChatGPTMessageController(ChatGPTMessageService chatGPTMessageService, JwtTokenService jwtTokenService) {
         this.chatGPTMessageService = chatGPTMessageService;
+        this.jwtTokenService = jwtTokenService;
     }
 
-    @GetMapping("/{studentId}/chats")
-    public ResponseEntity<SuccessResponse<ChatsByStudentIdResponse>> getChatsByStudentId(@PathVariable String studentId) {
-        return chatGPTMessageService.getChatsByStudentId(studentId);
+    @GetMapping("/chats")
+    public ResponseEntity<SuccessResponse<List<ChatsByStudentIdResponse>>> getChatsByStudentId(@CookieValue(name = "refreshToken", defaultValue = "-1") String refreshToken) {
+        String studentId = jwtTokenService.refreshTokenToStudentNumber(refreshToken);
+        return SuccessResponse.success(SuccessCode.CHAT_GPT_MESSAGE_STUDENT_ID_SUCCESS, chatGPTMessageService.getChatsByStudentId(studentId));
     }
 
 //    @PostMapping("/{studentId}/chats")
