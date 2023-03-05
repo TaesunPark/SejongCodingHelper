@@ -2,7 +2,7 @@ package com.example.testlocal.module.chatbot.presentation.controller;
 
 import com.example.testlocal.config.Constants;
 import com.example.testlocal.domain.dto.ChatbotRoomDTO;
-import com.example.testlocal.domain.entity.ChatbotRoom;
+import com.example.testlocal.module.chatbot.domain.entity.ChatbotRoom;
 import com.example.testlocal.domain.entity.ChatbotTrainDataC;
 import com.example.testlocal.domain.entity.ChatbotTrainDataPython;
 import com.example.testlocal.module.chatbot.application.service.ChatbotRoomService;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+@Deprecated
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -43,14 +44,12 @@ public class ChatbotRoomController {
 
     @PostMapping("/chatbotRoom/studentId")
     public List<ChatbotRoom> findAllRoomByStudentId(HttpServletRequest request, @CookieValue(name = "refreshToken", defaultValue = "-1") String refreshToken) {
-
         List<ChatbotRoom> result = chatbotRoomService.findAllRoomByStudentId(refreshToken);
         HttpSession session = request.getSession();
         String roomId = (String)session.getAttribute("bRoomId");
 
         // get한 세션이 없을 경우 => 첫 번째 채팅방으로 session set.
         if(roomId == null){
-
             //c인지 검증
             int i=0;
             if(result.get(0).getTitle().equals("P"))
@@ -63,7 +62,6 @@ public class ChatbotRoomController {
 
     @PostMapping("/chatbotRoom/roomSessionId")
     public String getRoomSessionId(HttpServletRequest request){
-
         HttpSession session = request.getSession();
         String roomId = (String)session.getAttribute("bRoomId");
 
@@ -72,7 +70,6 @@ public class ChatbotRoomController {
 
     @PostMapping("/chatbotRoom/roomSessionId/{roomId}")
     public void setRoomSessionId(HttpServletRequest request,@PathVariable String roomId){
-
         HttpSession session = request.getSession();
         session.setAttribute("bRoomId",roomId);
     }

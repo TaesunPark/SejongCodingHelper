@@ -3,7 +3,7 @@ package com.example.testlocal.module.chatbot.presentation.controller;
 import com.example.testlocal.config.ApiKey;
 import com.example.testlocal.config.Constants;
 import com.example.testlocal.domain.dto.ChatbotDTO;
-import com.example.testlocal.domain.entity.Chatbot;
+import com.example.testlocal.module.chatbot.domain.entity.Chatbot;
 import com.example.testlocal.module.chatbot.application.service.ChatbotService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-
+@Deprecated
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -36,8 +36,6 @@ public class ChatbotController {
     //private final ApiKey apiKey = ApiKey.getInstance();
 
     private ApiKey apiKey;
-
-
 
     @PostMapping("/chatbotMessage/roomId/{roomId}")
     public List<Chatbot> findAllByRoomId(@PathVariable Long roomId) {

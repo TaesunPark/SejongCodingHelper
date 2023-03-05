@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Deprecated
 @Service
 @RequiredArgsConstructor
 public class ChatbotTrainDataService {

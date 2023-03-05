@@ -4,7 +4,7 @@ import com.example.testlocal.domain.entity.ChatbotTrainDataC;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-
+@Deprecated
 public interface ChatbotTrainDataCRepository extends JpaRepository<ChatbotTrainDataC,Long> {
 
     List<ChatbotTrainDataC> findTop15ByOrderByCountDesc();

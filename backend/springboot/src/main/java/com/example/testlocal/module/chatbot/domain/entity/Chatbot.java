@@ -1,4 +1,4 @@
-package com.example.testlocal.domain.entity;
+package com.example.testlocal.module.chatbot.domain.entity;
 
 import com.example.testlocal.domain.dto.ChatbotDTO;
 import com.example.testlocal.module.user.application.service.impl.UserService;
@@ -9,6 +9,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Deprecated
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

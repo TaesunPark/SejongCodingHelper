@@ -1,12 +1,13 @@
 package com.example.testlocal.module.chatbot.domain.repository;
 
-import com.example.testlocal.domain.entity.ChatbotRoom;
+import com.example.testlocal.module.chatbot.domain.entity.ChatbotRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Deprecated
 @Repository
 public interface ChatbotRoomRepository extends JpaRepository<ChatbotRoom,Long> {
 

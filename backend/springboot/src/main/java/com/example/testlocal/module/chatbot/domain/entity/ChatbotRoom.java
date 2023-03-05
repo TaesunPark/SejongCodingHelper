@@ -1,4 +1,4 @@
-package com.example.testlocal.domain.entity;
+package com.example.testlocal.module.chatbot.domain.entity;
 
 import com.example.testlocal.domain.dto.ChatbotRoomDTO;
 import com.example.testlocal.module.user.application.service.impl.UserService;
@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 
+@Deprecated
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
