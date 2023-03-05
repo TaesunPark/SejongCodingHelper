@@ -8,9 +8,7 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 public class ChatsByStudentIdResponse {
-
     private String message;
     private String createTime;
     private String recommends;
-
 }
