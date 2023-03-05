@@ -431,8 +431,10 @@ const BotChatRoom = ({
 
     axios
       .post(
-        API_CHATBOT_URL + '/chatbotMessage/message/' + nowRoomId + '/' + userId,
-        { message: text, time: nowTime, cRoomId: cRoomId, pRoomId: pRoomId },
+        // API_CHATBOT_URL + '/chatbotMessage/message/' + nowRoomId + '/' + userId,
+        API_CHATBOT_URL + '/v1/chatgpt/students/chat',
+        // { message: text, time: nowTime, cRoomId: cRoomId, pRoomId: pRoomId },
+        {message: text},
         {
           headers: {
             'Content-type': 'application/json',
@@ -443,9 +445,9 @@ const BotChatRoom = ({
       )
       .then((res) => {
         getBotResponse(
-          res.data.result.message,
-          res.data.recommend,
-          getTime(res.data.result.createTime),
+          res.data.data.recommends,
+          res.data.data.recoList,
+          getTime(res.data.data.createTime),
         );
         scrollToBottom();
         changeLoadingState(false);
