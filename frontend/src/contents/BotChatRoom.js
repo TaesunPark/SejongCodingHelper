@@ -76,7 +76,8 @@ const BotChatRoom = ({
         changeLoadingState(true);
         clearChatList();
         getUserInfo();
-        getBotChatRoomList();
+        // getBotChatRoomList();
+        getBotChatList();
       }
     };
 
@@ -250,7 +251,7 @@ const BotChatRoom = ({
   const getBotChatRoomList = () => {
     axios
       .post(
-        API_BASE_URL + '/chatbotRoom/studentId',
+        API_BASE_URL + '/v1/chatgpt/students/chats',
         {},
         {
           headers: {
@@ -264,35 +265,35 @@ const BotChatRoom = ({
         let cRoomId;
 
         // C와 P 각각에 맞게 룸아이디 대입.
-        if (res.data[0].title === 'C') {
-          cRoomId = res.data[0].id;
-          changeCRoomId(res.data[0].id);
-          changePRoomId(res.data[1].id);
-        } else {
-          cRoomId = res.data[1].id;
-          changeCRoomId(res.data[1].id);
-          changePRoomId(res.data[0].id);
-        }
+        // if (res.data[0].title === 'C') {
+        //   cRoomId = res.data[0].id;
+        //   changeCRoomId(res.data[0].id);
+        //   changePRoomId(res.data[1].id);
+        // } else {
+        //   cRoomId = res.data[1].id;
+        //   changeCRoomId(res.data[1].id);
+        //   changePRoomId(res.data[0].id);
+        // }
 
-        getRoomIdSession().then((roomId) => {
-          let isCRoom = false;
-
-          // C언어 채팅룸이라면,
-          if (String(cRoomId) === String(roomId)) {
-            isCRoom = true;
-          }
-
-          // UI 바꾸기 처리.
-          if (isCRoom) {
-            setCBntStyleClass('navQuestionSelectedBnt');
-            getHotKeyword('c');
-          } else {
-            setPBntStyleClass('navQuestionSelectedBnt');
-            getHotKeyword('python');
-          }
-
-          getBotChatList(roomId);
-        });
+        // getRoomIdSession().then((roomId) => {
+        //   let isCRoom = false;
+        //
+        //   // C언어 채팅룸이라면,
+        //   if (String(cRoomId) === String(roomId)) {
+        //     isCRoom = true;
+        //   }
+        //
+        //   // UI 바꾸기 처리.
+        //   if (isCRoom) {
+        //     setCBntStyleClass('navQuestionSelectedBnt');
+        //     //getHotKeyword('c');
+        //   } else {
+        //     setPBntStyleClass('navQuestionSelectedBnt');
+        //     //getHotKeyword('python');
+        //   }
+        //
+        getBotChatList(roomId);
+        // });
       })
       .catch((res) => {
         console.log(res);
@@ -304,7 +305,8 @@ const BotChatRoom = ({
   const getBotChatList = (roomId) => {
     axios
       .post(
-        API_BASE_URL + '/chatbotMessage/roomId/' + roomId,
+        //API_BASE_URL + '/chatbotMessage/roomId/' + roomId,
+        API_BASE_URL + '/v1/chatgpt/students/chats',
         {},
         {
           headers: {
@@ -315,36 +317,37 @@ const BotChatRoom = ({
         },
       )
       .then((res) => {
-        for (let i = 0; i < res.data.length; i++) {
-          let name = 'user';
+        console.log(res.data.data);
+        for (let i = 0; i < res.data.data.length; i++) {
+          // let name = 'user';
+          //
+          // if (res.data[i].user.id === CHATBOT_ID) {
+          //   name = 'bot';
+          // }
 
-          if (res.data[i].user.id === CHATBOT_ID) {
-            name = 'bot';
-          }
-
-          if (name === 'user') {
+          // if (name === 'user') {
             addMsgData(
               num,
-              name,
-              res.data[i].message,
-              getTime(res.data[i].createTime),
+              "user",
+              res.data.data[i].message,
+              getTime(res.data.data[i].createTime),
             );
-          } else {
+          // } else {
             let len,
               reco = null;
 
-            if (res.data[i].recommends !== null) {
-              len = res.data[i].recommends.length - 1;
-              reco = res.data[i].recommends.substring(1, len).split(',');
+            if (res.data.data[i].recommends !== null) {
+              len = res.data.data[i].recommends.length - 1;
+              reco = res.data.data[i].recommends.substring(1, len).split(',');
             }
 
             getBotResponse(
-              res.data[i].message,
+              res.data.data[i].message,
               reco,
-              getTime(res.data[i].createTime),
+              getTime(res.data.data[i].createTime),
             );
           }
-        }
+        // }
 
         changeLoadingState(false);
         scrollToBottom();
