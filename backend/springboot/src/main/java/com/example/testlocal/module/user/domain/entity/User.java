@@ -1,10 +1,15 @@
 package com.example.testlocal.module.user.domain.entity;
 
-import com.example.testlocal.config.DateTime;
-import com.example.testlocal.config.RoleType;
+import com.example.testlocal.util.DateTime;
+import com.example.testlocal.util.RoleType;
+
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -31,7 +36,24 @@ public class User extends DateTime {
     @Column(name = "email", nullable = false, length = 60, unique = true)
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "USER_AUTHORITY", joinColumns = {
+            @JoinColumn(name = "id", referencedColumnName = "id")}, inverseJoinColumns = {
+            @JoinColumn(name = "role_id", referencedColumnName = "role_id")})
+    private Set<Role> roles = new HashSet<>();
 
+    @Builder(builderMethodName = "createUser")
+    public User(
+            @NotNull @Size(max = 512) String email,
+            @Size(max = 10) String studentNumber,
+            @Size(max = 128) String password,
+            @Size(max = 100) String name,
+            @Size(max = 10) Set role
+    ) {
+        this.email = email;
+        this.name = name;
+        this.studentNumber = studentNumber;
+        this.roles = role;
+        this.password = password;
+    }
 }
