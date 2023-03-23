@@ -24,6 +24,8 @@ public enum SuccessCode {
     ,
     CHAT_GPT_MESSAGE_STUDENT_ID_SUCCESS(OK, "학번으로 CHATGPT 채팅 불러오기 성공입니다.")
     ,
+    REFRESH_TOKEN_SUCCESS(OK, "리프레시 토큰 발급 성공입니다.")
+    ,
 
     /**
      * 201 CREATED
