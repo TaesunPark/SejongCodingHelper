@@ -27,6 +27,7 @@ public enum ErrorCode {
      * 403 Forbidden
      */
     FORBIDDEN_EXCEPTION(FORBIDDEN, "허용하지 않는 요청입니다."),
+    FORBIDDEN_TOKEN_REFRESH_EXCEPTION(FORBIDDEN, "리프레시 토큰 기간이 지났습니다."),
 
     /**
      * 404 Not Found
