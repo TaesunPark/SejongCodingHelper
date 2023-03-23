@@ -1,6 +1,6 @@
-package com.example.testlocal.domain.entity;
+package com.example.testlocal.module.user.domain;
 
-import com.example.testlocal.domain.dto.AssistantDTO;
+import com.example.testlocal.module.user.application.dto.AssistantDTO;
 import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
 import lombok.AllArgsConstructor;

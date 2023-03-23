@@ -1,6 +1,6 @@
 package com.example.testlocal.domain.entity;
 
-import com.example.testlocal.domain.dto.ChatDTO2;
+import com.example.testlocal.module.chat.application.dto.ChatDTO2;
 
 import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
