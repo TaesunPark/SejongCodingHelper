@@ -1,6 +1,6 @@
-package com.example.testlocal.module.user.application.service.impl;
+package com.example.testlocal.core.security.jwt.service;
 
-import com.example.testlocal.core.security.Jwt.CustomUserDetails;
+import com.example.testlocal.core.security.jwt.CustomUserDetails;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
