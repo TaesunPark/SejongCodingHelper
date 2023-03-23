@@ -1,6 +1,6 @@
 package com.example.testlocal.module.chatgpt.domain.entity;
 
-import com.example.testlocal.config.DateTime;
+import com.example.testlocal.util.DateTime;
 import com.example.testlocal.module.user.domain.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

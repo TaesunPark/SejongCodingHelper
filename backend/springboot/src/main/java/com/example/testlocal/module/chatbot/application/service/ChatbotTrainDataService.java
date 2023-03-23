@@ -1,7 +1,7 @@
 package com.example.testlocal.module.chatbot.application.service;
 
-import com.example.testlocal.domain.entity.ChatbotTrainDataC;
-import com.example.testlocal.domain.entity.ChatbotTrainDataPython;
+import com.example.testlocal.module.chatbot.ChatbotTrainDataC;
+import com.example.testlocal.module.chatbot.ChatbotTrainDataPython;
 import com.example.testlocal.module.chatbot.domain.repository.ChatbotTrainDataCRepository;
 import com.example.testlocal.module.chatbot.domain.repository.ChatbotTrainDataPythonRepository;
 import lombok.RequiredArgsConstructor;

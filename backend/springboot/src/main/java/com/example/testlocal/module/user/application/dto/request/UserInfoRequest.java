@@ -1,8 +1,10 @@
-package com.example.testlocal.module.user.application.dto.signup.request;
+package com.example.testlocal.module.user.application.dto.request;
 
-import com.example.testlocal.config.RoleType;
+import com.example.testlocal.module.user.domain.entity.Role;
+import com.example.testlocal.util.RoleType;
 import com.example.testlocal.module.user.domain.entity.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Set;
 
 public class UserInfoRequest {
     private String studentNumber;
@@ -16,7 +18,7 @@ public class UserInfoRequest {
 
     private String email;
 
-    private RoleType roleType;
+    private Set<Role> roleType;
 
     public String getStudentNumber() {
         return studentNumber;
@@ -58,18 +60,18 @@ public class UserInfoRequest {
         this.verifedPwd = verifedPwd;
     }
 
-    public RoleType getRoleType() {
+    public Set<Role> getRoleType() {
         return roleType;
     }
 
-    public void setRoleType(RoleType roleType) {
+    public void setRoleType(Set<Role> roleType) {
         this.roleType = roleType;
     }
 
     public User dtoToEntity(){
         return User.createUser()
                 .email(email)
-                .roleType(roleType)
+                .role(roleType)
                 .studentNumber(studentNumber)
                 .name(name)
                 .password(pwd).build();

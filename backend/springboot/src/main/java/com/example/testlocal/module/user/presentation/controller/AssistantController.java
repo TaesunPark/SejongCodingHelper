@@ -1,8 +1,8 @@
 package com.example.testlocal.module.user.presentation.controller;
 
-import com.example.testlocal.config.Constants;
-import com.example.testlocal.domain.dto.AssistantDTO;
-import com.example.testlocal.domain.entity.Assistant;
+import com.example.testlocal.util.Constants;
+import com.example.testlocal.module.user.application.dto.AssistantDTO;
+import com.example.testlocal.module.user.domain.entity.Assistant;
 import com.example.testlocal.module.user.application.service.impl.AssistantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,6 @@ public class AssistantController {
     @ResponseBody
     @PostMapping("/assistant/studentNumbers/{userId}")
     public String insertStudentNumbers(@PathVariable String userId, @RequestBody Map<String, Object> map){
-
         assistantService.insertStudentNumbers(userId, map.get("studentNumbers"), map.get("roomName"));
         return "success";
     }

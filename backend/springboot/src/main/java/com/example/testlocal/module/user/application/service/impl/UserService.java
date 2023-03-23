@@ -1,20 +1,23 @@
 package com.example.testlocal.module.user.application.service.impl;
 
-import com.example.testlocal.config.RoleType;
+import com.example.testlocal.module.user.application.service.RefreshTokenService;
+import com.example.testlocal.module.user.domain.entity.Role;
+import com.example.testlocal.module.user.domain.entity.RoleName;
+import com.example.testlocal.util.RoleType;
 import com.example.testlocal.core.exception.ConflictException;
 import com.example.testlocal.core.exception.ErrorCode;
 import com.example.testlocal.core.exception.InvalidUserIdException;
 import com.example.testlocal.core.exception.UnauthorizedException;
-import com.example.testlocal.core.security.JwtTokenProvider;
+import com.example.testlocal.core.security.jwt.JwtTokenProvider;
+import com.example.testlocal.core.security.jwt.dto.JwtTokenDto;
 import com.example.testlocal.module.user.application.dto.UserDto;
+import com.example.testlocal.module.user.application.dto.request.LoginRequest;
 import com.example.testlocal.module.user.application.dto.request.UserInfoRequest;
-import com.example.testlocal.module.user.application.dto.response.EmailCheckResponse;
 import com.example.testlocal.module.user.application.dto.response.UserInfoResponse;
 import com.example.testlocal.module.user.application.service.UserCheckService;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,11 +37,14 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository2 userRepository2;
     private final JavaMailSender javaMailSender;
-
     private final UserCheckService userCheckServiceImpl;
 
     public User create(UserDto requestDTO) {
-        User user = User.builder().email(requestDTO.getEmail()).name(requestDTO.getName()).password(requestDTO.getPassword()).studentNumber(requestDTO.getStudentNumber()).roleType(RoleType.USER).build();
+        HashSet<Role> roles = new HashSet<>();
+        Role role = new Role();
+        role.setRole(RoleName.ROLE_USER);
+        roles.add(role);
+        User user = User.builder().email(requestDTO.getEmail()).name(requestDTO.getName()).password(requestDTO.getPassword()).studentNumber(requestDTO.getStudentNumber()).roles(roles).build();
         return userRepository2.save(user);
     }
 
@@ -73,33 +79,28 @@ public class UserService {
                     ErrorCode.CONFLICT_STUDENT_NUMBER_EXCEPTION);
         }
 
+        User user = userInfoRequest.dtoToEntity();
+        userRepository2.save(user);
+
         return UserInfoResponse.of(userInfoRequest.getStudentNumber(), true, "회원가입 성공하였습니다.");
     }
 
-    public Map<String, String> login(Map<String, String> user) {
-
-        String accessToken = "";
-        String refreshToken = "";
-
-        // id확인
-        User checkedUser = userRepository2.findByStudentNumber(user.get("id"))
-                .orElseThrow(() -> new IllegalArgumentException("id가 존재하지 않습니다."));
-
-        // 비번 확인
-        if (!passwordEncoder.matches(user.get("pwd"), checkedUser.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀 번호입니다.");
-        }
-
-        accessToken = jwtTokenProvider.createToken(checkedUser.getStudentNumber(), 10L);
-        refreshToken = jwtTokenProvider.createToken(checkedUser.getStudentNumber(), 60L);
-
-        Map<String, String> map = new HashMap<>();
-        map.put("accessToken", accessToken);
-        map.put("refreshToken", refreshToken);
-
-        return map;
-
-    }
+//    public JwtTokenDto login(LoginRequest loginRequestDto) {
+//        // id확인
+//        User checkedUser = userRepository2.findByStudentNumber(loginRequestDto.getId())
+//                .orElseThrow(() -> new IllegalArgumentException("id가 존재하지 않습니다."));
+//
+//        // 비번 확인
+//        if (!passwordEncoder.matches(loginRequestDto.getPwd(), checkedUser.getPassword())) {
+//            throw new IllegalArgumentException("잘못된 비밀 번호입니다.");
+//        }
+//
+//        String accessToken = jwtTokenProvider.createAccessToken(checkedUser.getStudentNumber());
+//
+//        refreshTokenService.updateRefreshToken(checkedUser);
+//
+//        return new JwtTokenDto(accessToken);
+//    }
 
     @Transactional
     public String updatePw(String refreshToken,String nowPwd,String newPwd) {
@@ -175,28 +176,27 @@ public class UserService {
         return "accepted";
     }
 
-    public Map<String, String> refreshToken(String refreshToken) {
-        String accessToken = "";
-
-        String username = jwtTokenProvider.getUserPk(refreshToken);
-
-        if (jwtTokenProvider.validateToken(refreshToken)) {
-            accessToken = jwtTokenProvider.createToken(username, 60L);
-            refreshToken = jwtTokenProvider.createToken(username, 120L);
-        } else {
-            throw new IllegalArgumentException("토큰 오류");
-        }
-
-        if (refreshToken == null || "".equals(refreshToken)) {
-            throw new IllegalArgumentException("토큰 오류");
-        }
-
-        Map<String, String> map = new HashMap<>();
-        map.put("accessToken", accessToken);
-        map.put("refreshToken", refreshToken);
-
-        return map;
-    }
+//    public Map<String, String> refreshToken(String refreshToken) {
+//        String accessToken = "";
+//
+//        String username = jwtTokenProvider.getUserPk(refreshToken);
+//
+//        if (jwtTokenProvider.validateToken(refreshToken)) {
+//            accessToken = jwtTokenProvider.createAccessToken(username);
+//            refreshTokenService.updateRefreshToken(userRepository2.findByStudentNumber(username).get());
+//        } else {
+//            throw new IllegalArgumentException("토큰 오류");
+//        }
+//
+//        if (refreshToken == null || "".equals(refreshToken)) {
+//            throw new IllegalArgumentException("토큰 오류");
+//        }
+//
+//        Map<String, String> map = new HashMap<>();
+//        map.put("accessToken", accessToken);
+//
+//        return map;
+//    }
 
     //임시 비밀번호 난수 발생
     private String getAuthCode() {

@@ -1,6 +1,6 @@
 package com.example.testlocal.module.chatbot.domain.repository;
 
-import com.example.testlocal.domain.entity.ChatbotTrainDataC;
+import com.example.testlocal.module.chatbot.ChatbotTrainDataC;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

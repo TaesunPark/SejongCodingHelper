@@ -1,10 +1,10 @@
 package com.example.testlocal.module.chatbot.presentation.controller;
 
-import com.example.testlocal.config.Constants;
-import com.example.testlocal.domain.dto.ChatbotRoomDTO;
+import com.example.testlocal.util.Constants;
+import com.example.testlocal.module.chatbot.application.dto.ChatbotRoomDTO;
 import com.example.testlocal.module.chatbot.domain.entity.ChatbotRoom;
-import com.example.testlocal.domain.entity.ChatbotTrainDataC;
-import com.example.testlocal.domain.entity.ChatbotTrainDataPython;
+import com.example.testlocal.module.chatbot.ChatbotTrainDataC;
+import com.example.testlocal.module.chatbot.ChatbotTrainDataPython;
 import com.example.testlocal.module.chatbot.application.service.ChatbotRoomService;
 import com.example.testlocal.module.chatbot.application.service.ChatbotTrainDataService;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.testlocal.module.user.domain;
+package com.example.testlocal.module.user.domain.entity;
 
 import com.example.testlocal.module.user.application.dto.AssistantDTO;
 import com.example.testlocal.module.user.application.service.impl.UserService;

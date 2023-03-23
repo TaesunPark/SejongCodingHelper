@@ -1,7 +1,7 @@
 package com.example.testlocal.module.chat.application.service;
 
-import com.example.testlocal.domain.dto.ChatDTO2;
-import com.example.testlocal.domain.entity.Chat;
+import com.example.testlocal.module.chat.application.dto.ChatDTO2;
+import com.example.testlocal.module.chat.domain.Chat;
 import com.example.testlocal.core.exception.InvalidChatIdException;
 import com.example.testlocal.module.chat.domain.repository.ChatRepository;
 import com.example.testlocal.module.user.application.service.impl.UserService;

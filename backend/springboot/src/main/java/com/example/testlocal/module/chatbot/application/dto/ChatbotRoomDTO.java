@@ -1,4 +1,4 @@
-package com.example.testlocal.domain.dto;
+package com.example.testlocal.module.chatbot.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

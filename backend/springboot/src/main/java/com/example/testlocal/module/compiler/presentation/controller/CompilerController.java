@@ -1,6 +1,6 @@
 package com.example.testlocal.module.compiler.presentation.controller;
 
-import com.example.testlocal.config.Constants;
+import com.example.testlocal.util.Constants;
 import com.example.testlocal.module.compiler.application.service.CompilerService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

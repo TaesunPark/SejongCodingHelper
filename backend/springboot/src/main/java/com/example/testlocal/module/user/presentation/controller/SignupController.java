@@ -1,11 +1,10 @@
 package com.example.testlocal.module.user.presentation.controller;
 
-import com.example.testlocal.config.Constants;
+import com.example.testlocal.util.Constants;
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
 import com.example.testlocal.core.exception.ConflictException;
 import com.example.testlocal.core.exception.ErrorCode;
-import com.example.testlocal.core.exception.NotFoundException;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCheckRequest;
 import com.example.testlocal.module.user.application.dto.request.EmailCodeRequest;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -73,8 +71,7 @@ public class SignupController {
 
     @PostMapping("/completeUserSignup")
     public ResponseEntity<SuccessResponse<UserInfoResponse>> completeUserSignup(@RequestBody UserInfoRequest userInfoRequest) {
-        //chatbotRoomService.create(new ChatbotRoomDTO(id,4L,"C", "0"));
-        //chatbotRoomService.create(new ChatbotRoomDTO(id,4L,"P", "0"));
+
         return SuccessResponse.success(SuccessCode.SIGNUP_SUCCESS, userService.signUp(userInfoRequest));
     }
 

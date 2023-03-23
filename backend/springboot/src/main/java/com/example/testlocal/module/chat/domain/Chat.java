@@ -1,4 +1,4 @@
-package com.example.testlocal.domain.entity;
+package com.example.testlocal.module.chat.domain;
 
 import com.example.testlocal.module.chat.application.dto.ChatDTO2;
 

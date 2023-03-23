@@ -1,4 +1,4 @@
-package com.example.testlocal.domain.entity;
+package com.example.testlocal.module.chatbot;
 
 
 import lombok.AllArgsConstructor;

@@ -1,5 +1,6 @@
 package com.example.testlocal.module.chatgpt;
 
+import com.example.testlocal.module.chatgpt.application.ChatGPTMessageService;
 import com.example.testlocal.module.chatgpt.application.dto.response.ChatGPTMessageResponse;
 import io.github.flashvayne.chatgpt.property.ChatgptProperties;
 import io.github.flashvayne.chatgpt.service.ChatgptService;
@@ -11,20 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ChatGPTExample {
+public class MyChatGPTService {
     private ChatgptService chatgptService;
     private ChatgptProperties properties;
+    private ChatGPTMessageService chatGPTMessageService;
 
     @Autowired
-    public ChatGPTExample(ChatgptService chatgptService, ChatgptProperties properties){
+    public MyChatGPTService(ChatgptService chatgptService, ChatgptProperties properties){
         this.chatgptService = chatgptService;
         this.properties = properties;
-        properties.setMaxTokens(3000);
+        properties.setMaxTokens(1000);
+
     }
 
     public ChatGPTMessageResponse chat(String prompt){
-        // ChatGPT 에게 질문을 던집니다.
-
         String responseMessage = chatgptService.sendMessage(prompt);
         List<String> list = new ArrayList<>();
         list.add("추천 1");

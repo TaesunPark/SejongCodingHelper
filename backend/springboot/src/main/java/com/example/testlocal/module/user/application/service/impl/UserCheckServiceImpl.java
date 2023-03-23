@@ -22,9 +22,9 @@ public class UserCheckServiceImpl implements UserCheckService {
         if (isPresented){
             return false;
         }
+
         return true;
     }
-
     @Override
     public Boolean isOverlapStudentNumber(String studentNumber) {
         Boolean isPresented = userRepository.existsUserByStudentNumber(studentNumber);

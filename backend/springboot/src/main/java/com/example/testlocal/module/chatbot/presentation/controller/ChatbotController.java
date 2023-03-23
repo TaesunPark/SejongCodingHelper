@@ -1,8 +1,8 @@
 package com.example.testlocal.module.chatbot.presentation.controller;
 
-import com.example.testlocal.config.ApiKey;
-import com.example.testlocal.config.Constants;
-import com.example.testlocal.domain.dto.ChatbotDTO;
+import com.example.testlocal.util.ApiKey;
+import com.example.testlocal.util.Constants;
+import com.example.testlocal.module.chatbot.application.dto.ChatbotDTO;
 import com.example.testlocal.module.chatbot.domain.entity.Chatbot;
 import com.example.testlocal.module.chatbot.application.service.ChatbotService;
 import lombok.RequiredArgsConstructor;

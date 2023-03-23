@@ -1,4 +1,4 @@
-package com.example.testlocal.domain.dto;
+package com.example.testlocal.module.user.application.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

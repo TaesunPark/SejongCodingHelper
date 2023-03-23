@@ -1,13 +1,13 @@
 package com.example.testlocal.module.user.application.service.impl;
 
-import com.example.testlocal.domain.dto.AssistantDTO;
-import com.example.testlocal.domain.dto.ChatDTO2;
-import com.example.testlocal.domain.dto.RoomDTO;
-import com.example.testlocal.domain.entity.Assistant;
-import com.example.testlocal.domain.entity.Room;
+import com.example.testlocal.module.user.application.dto.AssistantDTO;
+import com.example.testlocal.module.chat.application.dto.ChatDTO2;
+import com.example.testlocal.module.chat.application.dto.RoomDTO;
+import com.example.testlocal.module.user.domain.entity.Assistant;
+import com.example.testlocal.module.chat.domain.Room;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.AssistantRepository;
-import com.example.testlocal.core.security.JwtTokenProvider;
+import com.example.testlocal.core.security.jwt.JwtTokenProvider;
 import com.example.testlocal.module.chat.application.service.ChatService;
 import com.example.testlocal.module.chat.application.service.RoomService;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,8 @@
 package com.example.testlocal.module.chat.presentation.controller;
 
-import com.example.testlocal.config.Constants;
-import com.example.testlocal.domain.dto.ChatDTO2;
-import com.example.testlocal.domain.entity.Chat;
+import com.example.testlocal.util.Constants;
+import com.example.testlocal.module.chat.application.dto.ChatDTO2;
+import com.example.testlocal.module.chat.domain.Chat;
 import com.example.testlocal.module.chat.application.service.ChatService;
 import com.example.testlocal.module.chat.application.service.RoomService;
 import com.example.testlocal.module.user.application.service.impl.UserService;

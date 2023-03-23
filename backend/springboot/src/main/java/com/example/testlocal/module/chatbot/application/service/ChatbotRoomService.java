@@ -1,10 +1,10 @@
 package com.example.testlocal.module.chatbot.application.service;
 
-import com.example.testlocal.domain.dto.ChatbotRoomDTO;
+import com.example.testlocal.module.chatbot.application.dto.ChatbotRoomDTO;
 import com.example.testlocal.module.chatbot.domain.entity.ChatbotRoom;
 import com.example.testlocal.core.exception.InvalidUserIdException;
 import com.example.testlocal.module.chatbot.domain.repository.ChatbotRoomRepository;
-import com.example.testlocal.core.security.JwtTokenProvider;
+import com.example.testlocal.core.security.jwt.JwtTokenProvider;
 
 import com.example.testlocal.module.user.application.service.impl.UserService;
 import lombok.RequiredArgsConstructor;

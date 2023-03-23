@@ -1,8 +1,8 @@
 package com.example.testlocal.module.chatbot.application.service;
 
-import com.example.testlocal.domain.dto.ChatbotDTO;
+import com.example.testlocal.module.chatbot.application.dto.ChatbotDTO;
 import com.example.testlocal.module.chatbot.domain.entity.Chatbot;
-import com.example.testlocal.domain.vo.RenderScriptProcessor;
+import com.example.testlocal.module.compiler.RenderScriptProcessor;
 import com.example.testlocal.module.chatbot.domain.repository.ChatbotRepository;
 import com.example.testlocal.module.user.application.service.impl.UserService;
 import lombok.RequiredArgsConstructor;

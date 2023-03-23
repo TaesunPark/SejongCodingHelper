@@ -1,4 +1,4 @@
-package com.example.testlocal.module.user.application.dto.signup.request;
+package com.example.testlocal.module.user.application.dto.request;
 
 public class EmailCheckRequest {
     private String email;

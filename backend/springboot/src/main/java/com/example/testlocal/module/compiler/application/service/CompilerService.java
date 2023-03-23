@@ -1,6 +1,6 @@
 package com.example.testlocal.module.compiler.application.service;
 
-import com.example.testlocal.domain.vo.RenderScriptProcessor;
+import com.example.testlocal.module.compiler.RenderScriptProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -86,8 +86,7 @@ public class CompilerService {
             executeCommendCFile.add("-c");
             executeCommendCFile.add(CExeDirectory+"<"+InputCFileDirectory);
             result = compiler.execCommand(executeCommendCFile, 3);
-        }
-        else {
+        } else{
             result = compiler.execCommand(createdList, 3);
         }
 
@@ -98,14 +97,12 @@ public class CompilerService {
 
     @SneakyThrows
     public void authorizeInProcess(RenderScriptProcessor compiler, String fileName, String chmodNumber){
-
         List<String> executeCommendCFile = new ArrayList<String>();
 
         executeCommendCFile.add("chmod");
         executeCommendCFile.add(chmodNumber);
         executeCommendCFile.add(fileName);
         compiler.execCommand(executeCommendCFile,3);
-
     }
 
     @SneakyThrows

@@ -1,8 +1,8 @@
 package com.example.testlocal.module.chat.presentation.controller;
 
-import com.example.testlocal.config.Constants;
-import com.example.testlocal.domain.dto.RoomDTO;
-import com.example.testlocal.domain.entity.Room;
+import com.example.testlocal.util.Constants;
+import com.example.testlocal.module.chat.application.dto.RoomDTO;
+import com.example.testlocal.module.chat.domain.Room;
 import com.example.testlocal.module.chat.application.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -79,10 +79,8 @@ public class RoomController {
 
     @PostMapping("/room/roomSessionId")
     public String getRoomSessionId(HttpServletRequest request){
-
         HttpSession session = request.getSession();
         String roomId = (String)session.getAttribute("roomId");
-
         return roomId;
     }
 

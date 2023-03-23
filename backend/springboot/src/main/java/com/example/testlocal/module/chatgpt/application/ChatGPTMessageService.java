@@ -27,4 +27,10 @@ public class ChatGPTMessageService {
 
         return chatsByStudentIdResponses;
     }
+
+    public void saveChatGPTMessage(String question, String answer){
+        // User,Chatgpt
+
+        // chatGPTMessageRepository.save();
+    }
 }
