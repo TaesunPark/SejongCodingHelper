@@ -1,23 +1,23 @@
-package com.example.testlocal.module.user.application.dto.request;
+package com.example.testlocal.module.compiler.application.dto;
 
 
-public class LoginRequest {
-    String id;
-    String pwd;
+public class CompilerRequest {
+    private String input;
+    private String code;
 
-    public String getId() {
-        return id;
+    public String getInput() {
+        return input;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setInput(String input) {
+        this.input = input;
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getCode() {
+        return code;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setCode(String code) {
+        this.code = code;
     }
 }
