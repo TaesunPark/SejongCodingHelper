@@ -1,5 +1,8 @@
 package com.example.testlocal.module.compiler.presentation.controller;
 
+import com.example.testlocal.core.file.FilePathEnum;
+import com.example.testlocal.core.file.FileService;
+import com.example.testlocal.module.compiler.application.dto.CompilerRequest;
 import com.example.testlocal.util.Constants;
 import com.example.testlocal.module.compiler.application.service.CompilerService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 @Slf4j
 @RestController
@@ -22,16 +27,15 @@ public class CompilerController {
 
    private final CompilerService compilerService;
 
-    @SneakyThrows
-    @PostMapping("/compiler/c")
-    public String compileInC(@RequestBody Map<String, String> map){
-        return compilerService.sendGcc(map.get("code"), map.get("input"));
+
+    @PostMapping(value = "/compiler/c", produces = "application/json; charset=UTF-8")
+    public String compileInC(@RequestBody CompilerRequest compilerRequest) throws IOException, InterruptedException, TimeoutException {
+        return compilerService.executeGccCompiler(compilerRequest.getCode(), compilerRequest.getInput());
     }
 
-    @SneakyThrows
-    @PostMapping("/compiler/python")
-    public String compileInPython(@RequestBody Map<String, String> map){
-        return compilerService.sendPython(map.get("code"), map.get("input"));
+    @PostMapping(value = "/compiler/python", produces = "application/json; charset=UTF-8")
+    public String compileInPython(@RequestBody CompilerRequest compilerRequest) throws IOException, InterruptedException, TimeoutException {
+        return compilerService.executePythonCompiler(compilerRequest.getCode(), compilerRequest.getInput());
     }
 
 
