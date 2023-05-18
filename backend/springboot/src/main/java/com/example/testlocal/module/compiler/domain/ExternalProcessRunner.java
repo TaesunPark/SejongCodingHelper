@@ -1,7 +1,6 @@
-package com.example.testlocal.module.compiler;
+package com.example.testlocal.module.compiler.domain;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.zeroturnaround.exec.InvalidExitValueException;
 import org.zeroturnaround.exec.ProcessExecutor;
 
@@ -11,11 +10,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+// 외부 프로세스 실행하는 클래스
 @Slf4j
 public class ExternalProcessRunner{
 
     private final long TIMEOUT_SECONDS = 3;
-
     private List<String> command;
     private ProcessExecutor processExecutor;
     private File file;
@@ -28,10 +27,6 @@ public class ExternalProcessRunner{
     }
 
     public String execute() throws IOException, InterruptedException, TimeoutException {
-        String output="";
-
-        boolean success = false;
-
         try {
             response = processExecutor
                     .directory(file)
@@ -43,7 +38,6 @@ public class ExternalProcessRunner{
                     .outputUTF8();
         }
         catch (InvalidExitValueException e) {
-            System.out.println("Process exited with " + e.getExitValue());
             response = e.getResult().outputUTF8();
         }
 
