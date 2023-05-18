@@ -1,6 +1,5 @@
 package com.example.testlocal.module.user.application.service.impl;
 
-import com.example.testlocal.config.RoleType;
 import com.example.testlocal.module.user.application.dto.UserDto;
 import com.example.testlocal.module.user.application.dto.response.EmailCheckResponse;
 import com.example.testlocal.module.user.application.service.UserCheckService;
@@ -43,9 +42,10 @@ class UserCheckServiceTest {
     @Test
     public void isOverlapEmail_FAIL(){
         UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
-        User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
+        User user = User.builder().email(userDTO.getEmail()).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
         userRepository.save(user);
         Boolean isOverlap = userCheckService.isOverlapEmail("tovbskvb@sju.ac.kr");
         assertThat(isOverlap).isEqualTo(false);
+
     }
 }

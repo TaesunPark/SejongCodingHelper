@@ -1,6 +1,5 @@
 package com.example.testlocal.module.chatgpt.domain.repository;
 
-import com.example.testlocal.config.RoleType;
 import com.example.testlocal.module.chatgpt.domain.entity.ChatGPT;
 import com.example.testlocal.module.chatgpt.domain.entity.UserChatGPTMessage;
 import com.example.testlocal.module.user.application.dto.UserDto;
@@ -39,7 +38,7 @@ class ChatGPTMessageRepositoryTest {
         chatGPTRepository.deleteAll();
         userRepository.deleteAll();
         UserDto userDTO = new UserDto("17011530", "1234", "박태순", "tovbskvb@sju.ac.kr");
-        user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
+        user = User.builder().email(userDTO.getEmail()).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
         chatGPT = new ChatGPT();
     }
 

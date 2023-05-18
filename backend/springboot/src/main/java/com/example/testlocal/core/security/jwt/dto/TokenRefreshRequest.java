@@ -1,5 +1,6 @@
 package com.example.testlocal.core.security.jwt.dto;
 
+
 import javax.validation.constraints.NotBlank;
 
 public class TokenRefreshRequest {

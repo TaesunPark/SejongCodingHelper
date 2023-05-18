@@ -1,10 +1,12 @@
 package com.example.testlocal.module.chatgpt.presentation;
 
+import com.example.testlocal.core.security.jwt.service.JwtTokenService;
 import com.example.testlocal.module.chatgpt.MyChatGPTService;
+import com.example.testlocal.module.chatgpt.application.dto.request.ChatGPTMessageRequest;
+import com.example.testlocal.module.chatgpt.application.dto.response.ChatGPTMessageResponse;
 import com.example.testlocal.util.Constants;
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
-import com.example.testlocal.core.security.jwt.service.JwtTokenService;
 import com.example.testlocal.module.chatgpt.application.ChatGPTMessageService;
 import com.example.testlocal.module.chatgpt.application.dto.response.ChatsByStudentIdResponse;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +35,10 @@ public class ChatGPTMessageController {
         return SuccessResponse.success(SuccessCode.CHAT_GPT_MESSAGE_STUDENT_ID_SUCCESS, chatGPTMessageService.getChatsByStudentId(studentId));
     }
 
-//    @PostMapping("/chat")
-//    public ResponseEntity<SuccessResponse<ChatGPTMessageResponse>> sendToChatGPT(@RequestBody ChatGPTMessageRequest chatGPTMessageRequest) {
-//        return SuccessResponse.success(SuccessCode.CHAT_GPT_MESSAGE_STUDENT_ID_SUCCESS, myChatGPTService.chat(chatGPTMessageRequest.getMessage()));
-//    }
+    @PostMapping("/chat")
+    public ResponseEntity<SuccessResponse<ChatGPTMessageResponse>> sendToChatGPT(@RequestBody ChatGPTMessageRequest chatGPTMessageRequest) {
+        return SuccessResponse.success(SuccessCode.CHAT_GPT_MESSAGE_STUDENT_ID_SUCCESS, myChatGPTService.chat(chatGPTMessageRequest.getMessage()));
+    }
 
 
 

@@ -1,6 +1,7 @@
-package com.example.testlocal.core.security.Jwt.service;
+package com.example.testlocal.core.security.jwt.service;
 
-import com.example.testlocal.core.security.Jwt.JwtTokenProvider;
+
+import com.example.testlocal.core.security.jwt.JwtTokenProvider;
 import org.springframework.stereotype.Service;
 
 @Service
