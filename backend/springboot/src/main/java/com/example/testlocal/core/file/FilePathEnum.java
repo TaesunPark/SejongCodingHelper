@@ -7,6 +7,7 @@ public enum FilePathEnum {
     C_EXECUTION_PATH("/Users/taesunpark/home/c/gcc/test"),
     PYTHON_FILE_PATH("/Users/taesunpark/home/python3/test.py"),
     PYTHON_INPUT_TEXT_FILE_PATH("/Users/taesunpark/home/python3/test.txt"),
+    TEST_TEXT_FILE_PATH("/Users/taesunpark/home/python3/test.txt"),
     PYTHON_FILENAME("test.py"),
     PYTHON_EXECUTION_PATH("/Users/taesunpark/home/python3/test.py")
     ;

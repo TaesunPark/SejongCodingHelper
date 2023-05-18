@@ -1,6 +1,6 @@
 package com.example.testlocal.module.user.application.service;
 
-import com.example.testlocal.module.user.application.service.impl.CustomUserDetailService;
+import com.example.testlocal.core.security.jwt.service.CustomUserDetailService;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import org.junit.jupiter.api.DisplayName;

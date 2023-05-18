@@ -1,3 +1,5 @@
+package com.example.testlocal.module.chatgpt;
+
 import com.example.testlocal.module.chatgpt.MyChatGPTService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

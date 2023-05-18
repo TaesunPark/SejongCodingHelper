@@ -1,6 +1,5 @@
 package com.example.testlocal.module.user.presentation.controller;
 
-import com.example.testlocal.config.RoleType;
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
 import com.example.testlocal.core.exception.ConflictException;
@@ -19,6 +18,7 @@ import com.example.testlocal.module.user.application.dto.response.UserInfoRespon
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.EmailCertificationDao;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
+import com.example.testlocal.util.RoleType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -101,7 +101,7 @@ class SignupControllerTest {
     @Test
     void checkDuplicatedEmailOverlap() {
         UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
-        User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
+        User user = User.builder().email(userDTO.getEmail()).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
         userRepository.save(user);
         EmailCheckRequest checkEmailRequest = new EmailCheckRequest();
         checkEmailRequest.setEmail("tovbskvb");
@@ -126,7 +126,7 @@ class SignupControllerTest {
     @Test
     void 회원가입_실패_이메일_중복() {
         UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
-        User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
+        User user = User.builder().email(userDTO.getEmail()).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
         userRepository.save(user);
         UserInfoRequest userInfoRequest = new UserInfoRequest();
         userInfoRequest.setStudentNumber("17011527");
@@ -141,7 +141,7 @@ class SignupControllerTest {
     @Test
     void 회원가입_실패_비밀번호확인_잘_못_입력() {
         UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
-        User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
+        User user = User.builder().email(userDTO.getEmail()).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
         userRepository.save(user);
         UserInfoRequest userInfoRequest = new UserInfoRequest();
         userInfoRequest.setStudentNumber("17011527");
@@ -156,7 +156,7 @@ class SignupControllerTest {
     @Test
     void 회원가입_실패_학번_중복() {
         UserDto userDTO = new UserDto("17011526", "1234", "박태순", "tovbskvb@sju.ac.kr");
-        User user = User.builder().email(userDTO.getEmail()).roleType(RoleType.USER).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
+        User user = User.builder().email(userDTO.getEmail()).name(userDTO.getName()).studentNumber(userDTO.getStudentNumber()).password(userDTO.getPassword()).build();
         userRepository.save(user);
         UserInfoRequest userInfoRequest = new UserInfoRequest();
         userInfoRequest.setStudentNumber("17011526");
