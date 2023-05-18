@@ -2,7 +2,7 @@ package com.example.testlocal.module.chatbot.application.service;
 
 import com.example.testlocal.module.chatbot.application.dto.ChatbotDTO;
 import com.example.testlocal.module.chatbot.domain.entity.Chatbot;
-import com.example.testlocal.module.compiler.RenderScriptProcessor;
+import com.example.testlocal.module.compiler.domain.ExternalProcessRunner;
 import com.example.testlocal.module.chatbot.domain.repository.ChatbotRepository;
 import com.example.testlocal.module.user.application.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,6 @@ public class ChatbotService {
 
     public String executePython(String input) throws IOException, InterruptedException, TimeoutException {
 
-        RenderScriptProcessor compiler = new RenderScriptProcessor();
         String PythonExeDirectory =  "./chatbot_test.py";
         String InputPythonFileDirectory = "./text.txt";
 
@@ -52,12 +51,12 @@ public class ChatbotService {
         File exePythonFile = new File("./chatbot_test.py");
         File textPythonFile = new File("./text.txt");
         String result;
-
         List<String> executeCommendCFile = new ArrayList<String>();
         executeCommendCFile.add("/bin/sh");
         executeCommendCFile.add("-c");
         executeCommendCFile.add("python3 "+PythonExeDirectory+"<"+InputPythonFileDirectory);
-        result = compiler.execCommand(executeCommendCFile, 20);
+        ExternalProcessRunner compiler = new ExternalProcessRunner(executeCommendCFile);
+        result = compiler.execute();
         textPythonFile.delete();
         return  result;
 

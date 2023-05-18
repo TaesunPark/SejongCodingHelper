@@ -1,20 +1,19 @@
 package com.example.testlocal.module.compiler.presentation.controller;
 
-import com.example.testlocal.core.file.FilePathEnum;
-import com.example.testlocal.core.file.FileService;
+import com.example.testlocal.core.dto.SuccessCode;
+import com.example.testlocal.core.dto.SuccessResponse;
 import com.example.testlocal.module.compiler.application.dto.CompilerRequest;
+import com.example.testlocal.module.compiler.application.dto.CompilerResponse;
 import com.example.testlocal.util.Constants;
 import com.example.testlocal.module.compiler.application.service.CompilerService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 @Slf4j
@@ -25,17 +24,17 @@ import java.util.concurrent.TimeoutException;
 
 public class CompilerController {
 
-   private final CompilerService compilerService;
-
+    private final CompilerService compilerService;
 
     @PostMapping(value = "/compiler/c", produces = "application/json; charset=UTF-8")
-    public String compileInC(@RequestBody CompilerRequest compilerRequest) throws IOException, InterruptedException, TimeoutException {
-        return compilerService.executeGccCompiler(compilerRequest.getCode(), compilerRequest.getInput());
+    public ResponseEntity<SuccessResponse<CompilerResponse>> compileInC(@RequestBody CompilerRequest compilerRequest) throws IOException, InterruptedException, TimeoutException {
+        return SuccessResponse.success(SuccessCode.COMPILER_GCC_SUCCESS, CompilerResponse.of(true,compilerService.executeGccCompiler(compilerRequest.getCode(), compilerRequest.getInput())));
     }
 
+
     @PostMapping(value = "/compiler/python", produces = "application/json; charset=UTF-8")
-    public String compileInPython(@RequestBody CompilerRequest compilerRequest) throws IOException, InterruptedException, TimeoutException {
-        return compilerService.executePythonCompiler(compilerRequest.getCode(), compilerRequest.getInput());
+    public ResponseEntity<SuccessResponse<CompilerResponse>> compileInPython(@RequestBody CompilerRequest compilerRequest) throws IOException, InterruptedException, TimeoutException {
+        return SuccessResponse.success(SuccessCode.COMPILER_PYTHON_SUCCESS, CompilerResponse.of(true,compilerService.executePythonCompiler(compilerRequest.getCode(), compilerRequest.getInput())));
     }
 
 

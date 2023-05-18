@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MyChatGPTService {
+public class
+MyChatGPTService {
     private ChatgptService chatgptService;
     private ChatgptProperties properties;
     private ChatGPTMessageService chatGPTMessageService;
@@ -22,7 +23,6 @@ public class MyChatGPTService {
         this.chatgptService = chatgptService;
         this.properties = properties;
         properties.setMaxTokens(1000);
-
     }
 
     public ChatGPTMessageResponse chat(String prompt){
