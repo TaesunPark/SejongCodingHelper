@@ -19,12 +19,18 @@ public enum SuccessCode {
     EMAIL_CODE_SUCCESS(OK, "이메일 검증 성공입니다."),
     EMAIL_DUPLICATED_CODE_SUCCESS(OK, "이메일 중복 검사 성공입니다."),
     LOGIN_SUCCESS(OK, "로그인 성공입니다."),
+
     FIND_MBR_SUCCESS(OK, "멤버 조회 성공입니다."),
     SIGNUP_SUCCESS(OK, "회원가입 성공입니다.")
     ,
     CHAT_GPT_MESSAGE_STUDENT_ID_SUCCESS(OK, "학번으로 CHATGPT 채팅 불러오기 성공입니다.")
     ,
-    REFRESH_TOKEN_SUCCESS(OK, "리프레시 토큰 발급 성공입니다.")
+    REFRESH_TOKEN_SUCCESS(OK, "리프레시 토큰 발급 성공입니다."),
+
+    COMPILER_GCC_SUCCESS(OK, "C언어 실행 성공입니다."),
+    COMPILER_PYTHON_SUCCESS(OK, "Python3 언어 실행 성공입니다.")
+
+
     ,
 
     /**
