@@ -8,7 +8,6 @@ import java.util.Set;
 
 public class UserInfoRequest {
     private String studentNumber;
-
     private String pwd;
 
     // 비밀번호 확인
