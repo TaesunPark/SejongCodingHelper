@@ -21,18 +21,16 @@ import java.util.concurrent.TimeoutException;
 @RequiredArgsConstructor
 //@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @CrossOrigin(origins = Constants.URL , allowCredentials = "true")
-
 public class CompilerController {
-
     private final CompilerService compilerService;
 
     @PostMapping(value = "/compiler/c", produces = "application/json; charset=UTF-8")
-    public ResponseEntity<SuccessResponse<CompilerResponse>> compileInC(@RequestBody CompilerRequest compilerRequest) throws IOException, InterruptedException, TimeoutException {
+    public ResponseEntity<SuccessResponse<CompilerResponse>> executeGCCCompiler(@RequestBody CompilerRequest compilerRequest) throws IOException, InterruptedException, TimeoutException {
         return SuccessResponse.success(SuccessCode.COMPILER_GCC_SUCCESS, CompilerResponse.of(true,compilerService.executeGccCompiler(compilerRequest.getCode(), compilerRequest.getInput())));
     }
 
     @PostMapping(value = "/compiler/python", produces = "application/json; charset=UTF-8")
-    public ResponseEntity<SuccessResponse<CompilerResponse>> compileInPython(@RequestBody CompilerRequest compilerRequest) throws IOException, InterruptedException, TimeoutException {
+    public ResponseEntity<SuccessResponse<CompilerResponse>> executePython3(@RequestBody CompilerRequest compilerRequest) throws IOException, InterruptedException, TimeoutException {
         return SuccessResponse.success(SuccessCode.COMPILER_PYTHON_SUCCESS, CompilerResponse.of(true,compilerService.executePythonCompiler(compilerRequest.getCode(), compilerRequest.getInput())));
     }
 
