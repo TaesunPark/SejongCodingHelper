@@ -4,6 +4,7 @@ import com.example.testlocal.module.user.domain.entity.Role;
 import com.example.testlocal.util.RoleType;
 import com.example.testlocal.module.user.domain.entity.User;
 
+import java.util.List;
 import java.util.Set;
 
 public class UserInfoRequest {
@@ -16,8 +17,6 @@ public class UserInfoRequest {
     private String name;
 
     private String email;
-
-    private Set<Role> roleType;
 
     public String getStudentNumber() {
         return studentNumber;
@@ -58,22 +57,14 @@ public class UserInfoRequest {
     public void setVerifedPwd(String verifedPwd) {
         this.verifedPwd = verifedPwd;
     }
-
-    public Set<Role> getRoleType() {
-        return roleType;
-    }
-
-    public void setRoleType(Set<Role> roleType) {
-        this.roleType = roleType;
-    }
-
-    public User dtoToEntity(){
-        return User.createUser()
+    public User dtoToEntity(List<Role> roleList){
+        User user = User.builder()
                 .email(email)
-                .role(roleType)
+                .roles(roleList)
                 .studentNumber(studentNumber)
                 .name(name)
                 .password(pwd).build();
+        return user;
     }
 
 }
