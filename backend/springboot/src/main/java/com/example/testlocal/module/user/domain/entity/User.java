@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -36,24 +37,10 @@ public class User extends DateTime {
     @Column(name = "email", nullable = false, length = 60, unique = true)
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "USER_AUTHORITY", joinColumns = {
-            @JoinColumn(name = "id", referencedColumnName = "id")}, inverseJoinColumns = {
-            @JoinColumn(name = "role_id", referencedColumnName = "role_id")})
-    private Set<Role> roles = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(name = "user_with_role",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    private List<Role> roles;
 
-    @Builder(builderMethodName = "createUser")
-    public User(
-            @NotNull @Size(max = 512) String email,
-            @Size(max = 10) String studentNumber,
-            @Size(max = 128) String password,
-            @Size(max = 100) String name,
-            @Size(max = 10) Set role
-    ) {
-        this.email = email;
-        this.name = name;
-        this.studentNumber = studentNumber;
-        this.roles = role;
-        this.password = password;
-    }
 }
