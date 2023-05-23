@@ -15,8 +15,11 @@ import com.example.testlocal.module.user.application.dto.response.EmailCheckResp
 import com.example.testlocal.module.user.application.dto.response.EmailCodeResponse;
 import com.example.testlocal.module.user.application.dto.response.SendEmailResponse;
 import com.example.testlocal.module.user.application.dto.response.UserInfoResponse;
+import com.example.testlocal.module.user.domain.entity.Role;
+import com.example.testlocal.module.user.domain.entity.RoleName;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.EmailCertificationDao;
+import com.example.testlocal.module.user.domain.repository.RoleRepository;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import com.example.testlocal.util.RoleType;
 import org.assertj.core.api.Assertions;
@@ -31,7 +34,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.mail.MessagingException;
 
-import java.util.HashMap;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -48,10 +51,10 @@ class SignupControllerTest {
     @Autowired
     private UserRepository2 userRepository;
 
-    @BeforeEach
-    void set(){
-        userRepository.deleteAll();
-    }
+//    @BeforeEach
+//    void set(){
+//        userRepository.deleteAll();
+//    }
 
     @DisplayName("이메일 보내기 컨트롤러 테스트")
     @Test
@@ -112,14 +115,15 @@ class SignupControllerTest {
     @Test
     void completeUserSignup() {
         UserInfoRequest userInfoRequest = new UserInfoRequest();
-        userInfoRequest.setStudentNumber("17011526");
-        userInfoRequest.setEmail("tovbskvb@sju.ac.kr");
+        userInfoRequest.setStudentNumber("13431522");
+        userInfoRequest.setEmail("tov6@sju.ac.kr");
         userInfoRequest.setName("박태순");
         userInfoRequest.setPwd("1234");
         userInfoRequest.setVerifedPwd("1234");
         ResponseEntity<SuccessResponse<UserInfoResponse>> result = signupController.completeUserSignup(userInfoRequest);
         assertThat(HttpStatus.OK).isEqualTo(result.getStatusCode());
         assertThat(result.getBody().getMessage()).isEqualTo(SuccessCode.SIGNUP_SUCCESS.getMessage());
+
     }
 
     @DisplayName("회원가입 완료 컨트롤러 테스트, 실패, 이메일 중복")

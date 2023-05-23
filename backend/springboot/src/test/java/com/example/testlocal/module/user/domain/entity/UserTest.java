@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,12 +22,13 @@ class UserTest {
     private User user1;
     private User user2;
 
-
     @BeforeEach
     public void init(){
-        Set<Role> roles = new HashSet<>();
-        roles.add(new Role(RoleName.ROLE_USER));
-        user1 = User.builder().email("tovbskvb@daum.net").studentNumber("17011526").password("1234").name("손민기").roles(roles).build();
+        List<Role> roles = new ArrayList<>();
+        Role role = new Role();
+        role.setRole(RoleName.ROLE_USER);
+        roles.add(role);
+        user1 = User.builder().email("tovbs@daum.net").studentNumber("1706").password("1234").name("손민기").roles(roles).build();
         user2 = userRepository.save(user1);
     }
 
@@ -46,8 +46,10 @@ class UserTest {
     @DisplayName("유저 업데이트, 테스트")
     @Test
     public void update(){
-        Set<Role> roles = new HashSet<>();
-        roles.add(new Role(RoleName.ROLE_USER));
+        List<Role> roles = new ArrayList<>();
+        Role role = new Role();
+        role.setRole(RoleName.ROLE_USER);
+        roles.add(role);
         user1 = User.builder().email("tovbskvb1@daum.net").studentNumber("17011526").password("1234").name("손민기").roles(roles).build();
         user2 = userRepository.save(user1);
         assertThat(user1.getName()).isEqualTo(user2.getName());

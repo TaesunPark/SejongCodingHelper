@@ -3,6 +3,7 @@ package com.example.testlocal.module.user.application.service.impl;
 import com.example.testlocal.module.user.application.service.RefreshTokenService;
 import com.example.testlocal.module.user.domain.entity.Role;
 import com.example.testlocal.module.user.domain.entity.RoleName;
+import com.example.testlocal.module.user.domain.repository.RoleRepository;
 import com.example.testlocal.util.RoleType;
 import com.example.testlocal.core.exception.ConflictException;
 import com.example.testlocal.core.exception.ErrorCode;
@@ -38,11 +39,11 @@ public class UserService {
     private final UserRepository2 userRepository2;
     private final JavaMailSender javaMailSender;
     private final UserCheckService userCheckServiceImpl;
+    private final RoleRepository roleRepository;
 
     public User create(UserDto requestDTO) {
-        HashSet<Role> roles = new HashSet<>();
+        ArrayList<Role> roles = new ArrayList<>();
         Role role = new Role();
-        role.setRole(RoleName.ROLE_USER);
         roles.add(role);
         User user = User.builder().email(requestDTO.getEmail()).name(requestDTO.getName()).password(requestDTO.getPassword()).studentNumber(requestDTO.getStudentNumber()).roles(roles).build();
         return userRepository2.save(user);
@@ -78,29 +79,14 @@ public class UserService {
             throw new ConflictException(String.format("이미 존재하는 학번 (%s) 입니다", userInfoRequest.getStudentNumber()),
                     ErrorCode.CONFLICT_STUDENT_NUMBER_EXCEPTION);
         }
-
-        User user = userInfoRequest.dtoToEntity();
+        List<Role> list = new ArrayList<>();
+        Role role = roleRepository.findByRole(RoleName.ROLE_USER);
+        list.add(role);
+        User user = userInfoRequest.dtoToEntity(list);
         userRepository2.save(user);
 
         return UserInfoResponse.of(userInfoRequest.getStudentNumber(), true, "회원가입 성공하였습니다.");
     }
-
-//    public JwtTokenDto login(LoginRequest loginRequestDto) {
-//        // id확인
-//        User checkedUser = userRepository2.findByStudentNumber(loginRequestDto.getId())
-//                .orElseThrow(() -> new IllegalArgumentException("id가 존재하지 않습니다."));
-//
-//        // 비번 확인
-//        if (!passwordEncoder.matches(loginRequestDto.getPwd(), checkedUser.getPassword())) {
-//            throw new IllegalArgumentException("잘못된 비밀 번호입니다.");
-//        }
-//
-//        String accessToken = jwtTokenProvider.createAccessToken(checkedUser.getStudentNumber());
-//
-//        refreshTokenService.updateRefreshToken(checkedUser);
-//
-//        return new JwtTokenDto(accessToken);
-//    }
 
     @Transactional
     public String updatePw(String refreshToken,String nowPwd,String newPwd) {
@@ -175,28 +161,6 @@ public class UserService {
 
         return "accepted";
     }
-
-//    public Map<String, String> refreshToken(String refreshToken) {
-//        String accessToken = "";
-//
-//        String username = jwtTokenProvider.getUserPk(refreshToken);
-//
-//        if (jwtTokenProvider.validateToken(refreshToken)) {
-//            accessToken = jwtTokenProvider.createAccessToken(username);
-//            refreshTokenService.updateRefreshToken(userRepository2.findByStudentNumber(username).get());
-//        } else {
-//            throw new IllegalArgumentException("토큰 오류");
-//        }
-//
-//        if (refreshToken == null || "".equals(refreshToken)) {
-//            throw new IllegalArgumentException("토큰 오류");
-//        }
-//
-//        Map<String, String> map = new HashMap<>();
-//        map.put("accessToken", accessToken);
-//
-//        return map;
-//    }
 
     //임시 비밀번호 난수 발생
     private String getAuthCode() {
