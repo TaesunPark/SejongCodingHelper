@@ -24,7 +24,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final LoginContoller loginContoller;
+    private final LoginController loginController;
 
     @GetMapping("/user")
     public List<User> all() {
@@ -75,7 +75,7 @@ public class UserController {
                           @RequestBody Map<String, String> map,HttpServletResponse response,HttpServletRequest request) {
 
         String result = userService.deleteUser(refreshToken,map.get("nowPwd"));
-        loginContoller.logoutUser();
+        loginController.logoutUser();
         return result;
     }
 

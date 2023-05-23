@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @SpringBootTest
 class LoginControllerTest {
     @Autowired
-    private LoginContoller loginContoller;
+    private LoginController loginController;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
