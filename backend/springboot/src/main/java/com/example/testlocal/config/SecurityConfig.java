@@ -1,4 +1,5 @@
 package com.example.testlocal.config;
+import com.example.testlocal.core.security.CustomPasswordEncoder;
 import com.example.testlocal.core.security.jwt.JwtAuthenticationFilter;
 import com.example.testlocal.core.security.jwt.JwtTokenProvider;
 import com.example.testlocal.util.Constants;
@@ -31,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // 암호화에 필요한 PasswordEncoder 를 Bean 등록.
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return new CustomPasswordEncoder();
     }
 
     // authenticationManager를 Bean 등록.
