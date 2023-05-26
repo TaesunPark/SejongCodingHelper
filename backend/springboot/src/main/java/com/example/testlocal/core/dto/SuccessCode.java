@@ -26,6 +26,7 @@ public enum SuccessCode {
     CHAT_GPT_MESSAGE_STUDENT_ID_SUCCESS(OK, "학번으로 CHATGPT 채팅 불러오기 성공입니다.")
     ,
     REFRESH_TOKEN_SUCCESS(OK, "리프레시 토큰 발급 성공입니다."),
+    TOKEN_SUCCESS(OK, "토큰 발급 성공입니다"),
 
     COMPILER_GCC_SUCCESS(OK, "C언어 실행 성공입니다."),
     COMPILER_PYTHON_SUCCESS(OK, "Python3 언어 실행 성공입니다.")
