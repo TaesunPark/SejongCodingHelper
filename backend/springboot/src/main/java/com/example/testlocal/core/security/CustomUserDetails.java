@@ -1,4 +1,4 @@
-package com.example.testlocal.core.security.jwt;
+package com.example.testlocal.core.security;
 
 import com.example.testlocal.module.user.domain.entity.User;
 import org.springframework.security.core.GrantedAuthority;
