@@ -22,10 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 //@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @CrossOrigin(origins = Constants.URL , allowCredentials = "true")
+@RequestMapping("/signup")
 public class SignupController {
 
     private final JavaMailSender javaMailSender;
@@ -46,17 +44,20 @@ public class SignupController {
     @Value("${spring.mail.username}")
     private String from;
 
-    @PostMapping("/email")
+    // 사용자에게 확인 코드 이메일 보내기
+    @PostMapping("/send-email")
     public ResponseEntity<SuccessResponse<SendEmailResponse>> sendSejongEmail(@RequestBody SendEmailRequest sendEmailRequest, HttpServletRequest request) throws MessagingException {
         return SuccessResponse.success(SuccessCode.EMAIL_SUCCESS, emailService.sendSejongEmail(sendEmailRequest, request));
     }
 
-    @PostMapping("/emailAuthCode")
+    // 검증 코드 확인하기
+    @PostMapping("/confirm-email-code")
     public ResponseEntity<SuccessResponse<EmailCodeResponse>> checkEmailAuthCode(@RequestBody EmailCodeRequest emailCodeRequest, HttpServletRequest request) {
         return SuccessResponse.success(SuccessCode.EMAIL_CODE_SUCCESS, emailService.checkEmailAuthCode(emailCodeRequest, request));
     }
 
-    @PostMapping("/checkEmailOverlap")
+    // 이메일 중복 검사하기
+    @PostMapping("/check-email-duplicate")
     public ResponseEntity<SuccessResponse<EmailCheckResponse>> checkEmailOverlap(@RequestBody EmailCheckRequest checkEmailRequest) {
         String email = checkEmailRequest.getEmail() + "@sju.ac.kr";
         Boolean isPresented = userCheckServiceImpl.isOverlapEmail(email);
@@ -69,9 +70,9 @@ public class SignupController {
         return SuccessResponse.success(SuccessCode.EMAIL_DUPLICATED_CODE_SUCCESS, new EmailCheckResponse(email));
     }
 
-    @PostMapping("/completeUserSignup")
+    // 유저 회원 가입
+    @PostMapping()
     public ResponseEntity<SuccessResponse<UserInfoResponse>> completeUserSignup(@RequestBody UserInfoRequest userInfoRequest) {
-
         return SuccessResponse.success(SuccessCode.SIGNUP_SUCCESS, userService.signUp(userInfoRequest));
     }
 
