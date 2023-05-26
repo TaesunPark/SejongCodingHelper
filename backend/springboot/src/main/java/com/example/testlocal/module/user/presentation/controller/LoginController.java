@@ -2,7 +2,7 @@ package com.example.testlocal.module.user.presentation.controller;
 
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
-import com.example.testlocal.core.security.jwt.CustomUserDetails;
+import com.example.testlocal.core.security.CustomUserDetails;
 import com.example.testlocal.core.security.jwt.JwtUtils;
 import com.example.testlocal.core.security.jwt.dto.JwtResponse;
 import com.example.testlocal.core.security.jwt.dto.JwtTokenDto;
@@ -10,6 +10,7 @@ import com.example.testlocal.core.security.jwt.dto.TokenRefreshRequest;
 import com.example.testlocal.module.user.application.dto.request.LoginRequest;
 import com.example.testlocal.module.user.application.service.RefreshTokenService;
 import com.example.testlocal.module.user.domain.entity.RefreshToken;
+import com.example.testlocal.util.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +27,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
-//@CrossOrigin(origins = Constants.URL , allowCredentials = "true")
+@CrossOrigin(origins = Constants.URL , allowCredentials = "true")
 public class LoginController {
     private final RefreshTokenService refreshTokenService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 
-    @PostMapping("/logincheck")
+    @PostMapping("/login")
     public ResponseEntity<SuccessResponse<JwtResponse>> loginUser(@RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager
@@ -54,19 +54,18 @@ public class LoginController {
                 userDetails.getEmail(), roles));
     }
 
-    @PostMapping("/refreshLoginToken")
-    public ResponseEntity<SuccessResponse<JwtTokenDto>> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
-        String requestRefreshToken = request.getRefreshToken();
-
-        RefreshToken refreshToken = refreshTokenService.findByToken(requestRefreshToken).get();
-
-        String token = jwtUtils.generateTokenFromUsername(refreshTokenService.verifyExpiration(refreshToken).getUser().getStudentNumber());
-
-        return SuccessResponse.success(SuccessCode.REFRESH_TOKEN_SUCCESS, new JwtTokenDto(token, requestRefreshToken));
-
+    @PostMapping("/refreshToken")
+    public ResponseEntity<SuccessResponse<JwtTokenDto>> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
+        return refreshTokenService.findByToken(request.getRefreshToken())
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String accessToken = refreshTokenService.createRefreshToken(user.getStudentNumber()).getToken();
+                    return SuccessResponse.success(SuccessCode.TOKEN_SUCCESS, JwtTokenDto.builder().accessToken(accessToken).refreshToken(request.getRefreshToken()).build());
+                }).get();
     }
 
-    @PostMapping("/userlogout")
+    @PostMapping("/logout")
     public ResponseEntity<?> logoutUser() {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
