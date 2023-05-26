@@ -20,7 +20,7 @@ public enum ErrorCode {
     /**
      * 401 UnAuthorized
      */
-    UNAUTHORIZED_EXCEPTION(UNAUTHORIZED, "토큰이 만료되었습니다. 다시 로그인 해주세요."),
+    UNAUTHORIZED_EXCEPTION(UNAUTHORIZED, "접근에 대한 자격이 없습니다."),
     UNAUTHORIZED_PASSWORD_EXCEPTION(UNAUTHORIZED, "비밀번호와 비밀번호 확인 값이 다릅니다."),
 
     /**

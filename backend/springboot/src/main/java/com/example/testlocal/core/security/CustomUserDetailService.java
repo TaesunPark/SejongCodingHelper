@@ -21,7 +21,7 @@ public class CustomUserDetailService implements UserDetailsService {
         Optional<User> user = userRepository.findByStudentNumber(studentNumber);
 
         if (user.isEmpty()){
-            throw new InvalidCredentialsException();
+            throw new UsernameNotFoundException("잘못된 접근");
         }
 
         return new CustomUserDetails(user.get());
