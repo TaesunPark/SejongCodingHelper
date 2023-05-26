@@ -2,6 +2,7 @@ package com.example.testlocal.module.user.presentation.controller;
 
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
+import com.example.testlocal.core.exception.login.InvalidCredentialsException;
 import com.example.testlocal.core.security.CustomUserDetails;
 import com.example.testlocal.core.security.jwt.JwtUtils;
 import com.example.testlocal.core.security.jwt.dto.JwtResponse;
@@ -15,9 +16,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,9 +38,13 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<SuccessResponse<JwtResponse>> loginUser(@RequestBody LoginRequest loginRequest) {
+        Authentication authentication;
 
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getId(), loginRequest.getPwd()));
+        try {
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getId(), loginRequest.getPwd()));
+        } catch (BadCredentialsException ex){
+            throw new InvalidCredentialsException();
+        }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
