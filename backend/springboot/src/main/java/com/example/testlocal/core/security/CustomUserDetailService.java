@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -21,9 +23,10 @@ public class CustomUserDetailService implements UserDetailsService {
         Optional<User> user = userRepository.findByStudentNumber(studentNumber);
 
         if (user.isEmpty()){
-            throw new UsernameNotFoundException("잘못된 접근");
+            return null;
         }
 
         return new CustomUserDetails(user.get());
+
     }
 }
