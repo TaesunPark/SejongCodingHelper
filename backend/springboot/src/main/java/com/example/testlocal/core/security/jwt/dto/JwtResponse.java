@@ -1,6 +1,7 @@
 package com.example.testlocal.core.security.jwt.dto;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
@@ -15,9 +16,9 @@ public class JwtResponse {
     private String refreshToken;
     private String username;
     private String email;
-    private List<String> roles;
+    private List<GrantedAuthority> roles;
 
-    public JwtResponse(String accessToken, String refreshToken, String username, String email, List<String> roles) {
+    public JwtResponse(String accessToken, String refreshToken, String username, String email, List<GrantedAuthority> roles) {
         this.token = accessToken;
         this.refreshToken = refreshToken;
         this.username = username;
