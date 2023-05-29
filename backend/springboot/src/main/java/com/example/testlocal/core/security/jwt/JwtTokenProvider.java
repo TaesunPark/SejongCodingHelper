@@ -1,15 +1,14 @@
 package com.example.testlocal.core.security.jwt;
 
+import com.example.testlocal.core.security.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -26,7 +25,7 @@ public class JwtTokenProvider {
     private static final String PREFIX_BEARER = "Bearer ";
     @Value("${sjc.app.jwtSecret}")
     private String secretKey;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailService userDetailsService;
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
