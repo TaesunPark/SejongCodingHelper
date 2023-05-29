@@ -1,5 +1,7 @@
 package com.example.testlocal.config;
+import com.example.testlocal.core.security.CustomAuthenticationProvider;
 import com.example.testlocal.core.security.CustomPasswordEncoder;
+import com.example.testlocal.core.security.CustomUserDetailService;
 import com.example.testlocal.core.security.jwt.JwtAuthenticationFilter;
 import com.example.testlocal.core.security.jwt.JwtTokenProvider;
 import com.example.testlocal.util.Constants;
@@ -13,8 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -27,7 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailService userDetailsService;
 
     // 암호화에 필요한 PasswordEncoder 를 Bean 등록.
     @Bean
@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
+        // AuthenticationManager 반환
         return super.authenticationManagerBean();
     }
 
@@ -47,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .csrf().disable()
+                .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests() // 요청에 대한 사용권한 체크
@@ -78,8 +80,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+
+    // custom provider 적용
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Bean
+    public CustomAuthenticationProvider authenticationProvider() {
+        return new CustomAuthenticationProvider(userDetailsService, passwordEncoder());
+    }
+
+    // custom userDetailsService 적용
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
+
+
 }
