@@ -20,8 +20,8 @@ public class JwtUtils {
     @Value("${sjc.app.jwtExpiration.accessToken}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(CustomUserDetails userPrincipal) {
-        return generateTokenFromUsername(userPrincipal.getUsername());
+    public String generateJwtToken(String username) {
+        return generateTokenFromUsername(username);
     }
 
     public String generateTokenFromUsername(String username) {
