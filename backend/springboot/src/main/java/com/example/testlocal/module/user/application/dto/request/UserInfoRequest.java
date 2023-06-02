@@ -59,6 +59,7 @@ public class UserInfoRequest {
     }
     public User dtoToEntity(List<Role> roleList){
         User user = User.builder()
+                .passwordCount(0)
                 .email(email)
                 .roles(roleList)
                 .studentNumber(studentNumber)
