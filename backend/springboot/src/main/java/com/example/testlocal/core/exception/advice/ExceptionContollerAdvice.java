@@ -100,7 +100,7 @@ public class ExceptionContollerAdvice {
     protected ResponseEntity<ErrorResponse> handleBaseException(BusinessException exception) {
         log.error(exception.getMessage(), exception);
         return ResponseEntity.status(exception.getStatus())
-                .body(ErrorResponse.error(exception.getErrorCode()));
+                .body(ErrorResponse.error(exception.getErrorCode(), exception.getMessage()));
     }
 
     /**
