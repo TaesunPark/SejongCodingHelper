@@ -1,5 +1,6 @@
 package com.example.testlocal.core.security;
 
+import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -60,4 +61,19 @@ public class CustomUserDetails implements UserDetails {
     public String getEmail() {
         return user.getEmail();
     }
+
+    public Integer getPasswordCount(){
+        return user.getPasswordCount();
+    }
+
+    public User initPasswordCount(){
+        user.setPasswordCount();
+        return user;
+    }
+
+    public User addPasswordCount(){
+        user.addPasswordCount();
+        return user;
+    }
+
 }
