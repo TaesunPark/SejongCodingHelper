@@ -43,4 +43,16 @@ public class User extends DateTime {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private List<Role> roles;
 
+    @Column(name = "password_count", nullable = false)
+    private int passwordCount;
+
+    public Integer addPasswordCount(){
+        passwordCount += 1;
+        return passwordCount;
+    }
+
+    public void setPasswordCount(){
+        passwordCount = 0;
+    }
+
 }
