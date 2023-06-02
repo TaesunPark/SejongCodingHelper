@@ -9,4 +9,8 @@ public class InvalidCredentialsException extends UnauthorizedException {
         super("아이디(학번) 또는 비밀번호를 잘못 입력했습니다.");
     }
 
+    public InvalidCredentialsException(String msg){
+        super(msg);
+    }
+
 }
