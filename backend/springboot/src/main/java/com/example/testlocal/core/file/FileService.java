@@ -16,7 +16,7 @@ public class FileService {
     }
 
     // 파일 생성
-    public void createFile(String text, String path){
+     public synchronized void createFile(String text, String path){
         try (OutputStream outputStream = Files.newOutputStream(Path.of(path))) {
             byte[] bytes = text.getBytes();
             outputStream.write(bytes);
