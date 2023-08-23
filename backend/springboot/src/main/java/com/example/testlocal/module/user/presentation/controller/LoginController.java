@@ -1,5 +1,6 @@
 package com.example.testlocal.module.user.presentation.controller;
 
+import com.example.testlocal.config.HttpConfig;
 import com.example.testlocal.core.dto.SuccessCode;
 import com.example.testlocal.core.dto.SuccessResponse;
 import com.example.testlocal.core.security.CustomUserDetails;
@@ -19,7 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
+import javax.servlet.http.Cookie;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class LoginController {
     private final RefreshTokenService refreshTokenService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final HttpConfig httpConfig;
 
     @PostMapping("/login")
     public ResponseEntity<SuccessResponse<JwtResponse>> loginUser(@RequestBody LoginRequest loginRequest) {
@@ -45,6 +47,9 @@ public class LoginController {
         String jwt = jwtUtils.generateJwtToken((String) authentication.getPrincipal());
 
         RefreshToken refreshToken = refreshTokenService.createRefreshToken((String) authentication.getPrincipal());
+
+        Cookie cookie = httpConfig.cookie();
+        cookie.setValue(refreshToken.getToken());
 
         return SuccessResponse.success(SuccessCode.LOGIN_SUCCESS, new JwtResponse(jwt, refreshToken.getToken(), (String) authentication.getPrincipal(),
                 (String) authentication.getCredentials(), (List<GrantedAuthority>) authentication.getAuthorities()));
@@ -68,6 +73,5 @@ public class LoginController {
         refreshTokenService.deleteByUsername(username);
         return SuccessResponse.success(SuccessCode.OK_SUCCESS,"로그아웃 성공");
     }
-
 
 }
