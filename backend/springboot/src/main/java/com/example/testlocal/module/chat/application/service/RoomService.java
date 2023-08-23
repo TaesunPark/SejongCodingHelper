@@ -1,6 +1,7 @@
 package com.example.testlocal.module.chat.application.service;
 
 import com.example.testlocal.module.chat.application.dto.RoomDTO;
+import com.example.testlocal.module.chat.application.dto.RoomListDTO;
 import com.example.testlocal.module.chat.domain.Room;
 import com.example.testlocal.core.exception.InvalidRoomIdException;
 import com.example.testlocal.module.chat.domain.RoomUser;
@@ -43,22 +44,8 @@ public class RoomService {
         return repository.findById(id).orElseThrow(()-> new InvalidRoomIdException());
     }
 
-    public List<Room> findAllRoomByStudentId(String refreshToken){
-        String studentId = jwtTokenProvider.getUserPk(refreshToken);
-
-        List<Room> result = repository.findAllRoomByStudentId(studentId);
-
-        for(int i = 0; i<result.size(); i++){
-            String updateDate = repository.findLastChatTime(result.get(i).getId());
-
-//            if(updateDate == null || updateDate.equals(""))
-//                result.get(i).setUpdateDate("2000-12-30 00:00:00");
-//            else
-//                result.get(i).setUpdateDate(updateDate);
-        }
-        Collections.sort(result,new SortByDate());
-
-        return result;
+    public RoomListDTO findAllRoomByStudentId(String studentId){
+        return new RoomListDTO(roomUserRepository.findRoomUsersByUser_StudentNumber(studentId));
     }
 
     public List<Integer> findUnReadByStudentId(String refreshToken, List<Room> rooms){
