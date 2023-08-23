@@ -1,5 +1,6 @@
 package com.example.testlocal.module.user.domain.entity;
 
+import com.example.testlocal.module.chat.domain.RoomUser;
 import com.example.testlocal.util.DateTime;
 import com.example.testlocal.util.RoleType;
 
@@ -37,7 +38,7 @@ public class User extends DateTime {
     @Column(name = "email", nullable = false, length = 60, unique = true)
     private String email;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "user_with_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
@@ -45,6 +46,9 @@ public class User extends DateTime {
 
     @Column(name = "password_count", nullable = false)
     private int passwordCount;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<RoomUser> roomUserList;
 
     public Integer addPasswordCount(){
         passwordCount += 1;

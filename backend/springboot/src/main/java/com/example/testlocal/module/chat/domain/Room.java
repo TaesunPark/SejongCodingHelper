@@ -3,12 +3,15 @@ package com.example.testlocal.module.chat.domain;
 import com.example.testlocal.module.chat.application.dto.RoomDTO;
 import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
+import com.example.testlocal.util.DateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -16,7 +19,7 @@ import javax.persistence.*;
 @Entity(name = "room")
 @Table(name = "room")
 @Builder
-public class Room {
+public class Room extends DateTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,26 +28,12 @@ public class Room {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "update_date", nullable = false)
-    private String updateDate;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<RoomUser> roomUserList;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user2_id", nullable = false)
-    private User user2;
-
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public Room(RoomDTO requestDTO, UserService userService) {
+    public Room(RoomDTO requestDTO) {
         this.title = requestDTO.getTitle();
-        this.updateDate = requestDTO.getUpdateDate();
-        this.user = userService.findById(requestDTO.getUserId());
-        this.user2 = userService.findById(requestDTO.getUser2Id());
+        this.roomUserList = new ArrayList<>();
     }
 
 }
