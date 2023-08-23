@@ -3,12 +3,16 @@ package com.example.testlocal.module.chat.application.service;
 import com.example.testlocal.module.chat.application.dto.RoomDTO;
 import com.example.testlocal.module.chat.domain.Room;
 import com.example.testlocal.core.exception.InvalidRoomIdException;
+import com.example.testlocal.module.chat.domain.RoomUser;
 import com.example.testlocal.module.chat.domain.repository.RoomRepository;
 import com.example.testlocal.core.security.jwt.JwtTokenProvider;
+import com.example.testlocal.module.chat.domain.repository.RoomUserRepository;
 import com.example.testlocal.module.user.application.service.impl.UserService;
+import com.example.testlocal.module.user.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -17,9 +21,17 @@ public class RoomService {
     private final RoomRepository repository;
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RoomUserRepository roomUserRepository;
 
-    public Room create(RoomDTO roomDTO){
-        Room room = new Room(roomDTO, userService);
+    @Transactional
+    public Room create(RoomDTO roomDTO, String studentNumber){
+        Optional<User> user = userService.findUserByStudentNumber(studentNumber);
+        Room room = new Room(roomDTO);
+        RoomUser roomUser = new RoomUser();
+        roomUser.setRoom(room);
+        roomUser.setUser(user.get());
+        roomUserRepository.save(roomUser);
+        room.getRoomUserList().add(roomUser);
         return repository.save(room);
     }
 
@@ -39,10 +51,10 @@ public class RoomService {
         for(int i = 0; i<result.size(); i++){
             String updateDate = repository.findLastChatTime(result.get(i).getId());
 
-            if(updateDate == null || updateDate.equals(""))
-                result.get(i).setUpdateDate("2000-12-30 00:00:00");
-            else
-                result.get(i).setUpdateDate(updateDate);
+//            if(updateDate == null || updateDate.equals(""))
+//                result.get(i).setUpdateDate("2000-12-30 00:00:00");
+//            else
+//                result.get(i).setUpdateDate(updateDate);
         }
         Collections.sort(result,new SortByDate());
 
@@ -86,7 +98,7 @@ public class RoomService {
     static class SortByDate implements Comparator<Room> {
         @Override
         public int compare(Room o1, Room o2) {
-            return o2.getUpdateDate(). compareTo(o1.getUpdateDate());
+            return o2.getUpdateAt(). compareTo(o1.getUpdateAt());
         }
     }
 }
