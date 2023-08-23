@@ -209,6 +209,10 @@ public class UserService {
         }
     }
 
+    public Optional<User>findUserByStudentNumber(String studentNumber){
+        return userRepository2.findByStudentNumber(studentNumber);
+    }
+
     public String findUserEmailByStudentNumber(String studentNumber){
         return userRepository2.findUserEmailByStudentNumber(studentNumber);
     }
