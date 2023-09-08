@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class ApiKey {
     public static String secretKey;
 
-    @Value("${key}") // 저장된 키 값 가져오기
+//    @Value("${key}") // 저장된 키 값 가져오기
     public void setSecretKey(String value){
         secretKey = value;
     }
@@ -20,7 +20,7 @@ public class ApiKey {
 
     public static String apiUrl;
 
-    @Value("${url}")
+//    @Value("${url}")
     public void setApiUrl(String value){
         apiUrl = value;
     }

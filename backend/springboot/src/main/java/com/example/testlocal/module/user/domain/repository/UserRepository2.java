@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository2 extends JpaRepository<User, Long> {
-
     Boolean existsUserByEmail(String email);
 
     Boolean existsUserByStudentNumber(String studentNumber);
@@ -38,5 +37,4 @@ public interface UserRepository2 extends JpaRepository<User, Long> {
 
     @Query(value = "select email from user where student_number = ?1", nativeQuery = true)
     String findUserEmailByStudentNumber(String studentNumber);
-
 }

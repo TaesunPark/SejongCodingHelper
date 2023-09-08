@@ -38,7 +38,7 @@ public class User extends DateTime {
     @Column(name = "email", nullable = false, length = 60, unique = true)
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "user_with_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
@@ -48,7 +48,10 @@ public class User extends DateTime {
     private int passwordCount;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @Getter
+    @Setter
     private List<RoomUser> roomUserList;
+
 
     public Integer addPasswordCount(){
         passwordCount += 1;
@@ -57,6 +60,11 @@ public class User extends DateTime {
 
     public void setPasswordCount(){
         passwordCount = 0;
+    }
+
+    @Override
+    public String toString(){
+        return "id=" + id + ", 학번="+studentNumber+", 이름="+name;
     }
 
 }

@@ -54,12 +54,12 @@ public class AssistantService {
                 Long id2 = (long) validateExistsUserId(number);
                 if (id2 != 0){
                     String nowTime = new Timestamp(System.currentTimeMillis()).toString();
-                    Room createdRoom =  roomService.create(new RoomDTO(id, id2, (String) roomName,nowTime));
-                    User assistant = userService.findById(id);
-                    // 채팅방 생성 후 첫 채팅 생성
-                    chatService.create(new ChatDTO2(createdRoom.getId(), id,new Timestamp(System.currentTimeMillis()),
-                            assistant.getName(), (String)roomName + "과목" +
-                            " TA " + assistant.getName() + "님에 의해 생성된 채팅방입니다.",0));
+////                    Room createdRoom =  roomService.create(new RoomDTO(id, id2, (String) roomName,nowTime));
+//                    User assistant = userService.findById(id);
+//                    // 채팅방 생성 후 첫 채팅 생성
+//                    chatService.create(new ChatDTO2(createdRoom.getId(), id,new Timestamp(System.currentTimeMillis()),
+//                            assistant.getName(), (String)roomName + "과목" +
+//                            " TA " + assistant.getName() + "님에 의해 생성된 채팅방입니다.",0));
                 }
             }
         }

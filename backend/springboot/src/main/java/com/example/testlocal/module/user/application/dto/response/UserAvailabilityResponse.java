@@ -1,2 +1,8 @@
-package com.example.testlocal.module.user.application.dto.response;public class UserAvailabilityResponse {
+package com.example.testlocal.module.user.application.dto.response;
+
+import lombok.Data;
+
+@Data
+public class UserAvailabilityResponse {
+    String result;
 }

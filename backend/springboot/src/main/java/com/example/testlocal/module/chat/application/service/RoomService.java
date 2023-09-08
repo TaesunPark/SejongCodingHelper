@@ -10,6 +10,7 @@ import com.example.testlocal.core.security.jwt.JwtTokenProvider;
 import com.example.testlocal.module.chat.domain.repository.RoomUserRepository;
 import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
+import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +24,18 @@ public class RoomService {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
     private final RoomUserRepository roomUserRepository;
+    private final UserRepository2 userRepository;
 
     @Transactional
     public Room create(RoomDTO roomDTO, String studentNumber){
-        Optional<User> user = userService.findUserByStudentNumber(studentNumber);
+        Optional<User> user = userRepository.findByStudentNumber(studentNumber);
         Room room = new Room(roomDTO);
         RoomUser roomUser = new RoomUser();
         roomUser.setRoom(room);
         roomUser.setUser(user.get());
         roomUserRepository.save(roomUser);
-        room.getRoomUserList().add(roomUser);
+        user.get().getRoomUserList().add(roomUser);
+        userRepository.save(user.get());
         return repository.save(room);
     }
 
@@ -41,7 +44,8 @@ public class RoomService {
     }
 
     public Room findById(Long id){
-        return repository.findById(id).orElseThrow(()-> new InvalidRoomIdException());
+        Room room = repository.findById(id).orElseThrow(()-> new InvalidRoomIdException());
+        return room;
     }
 
     public RoomListDTO findAllRoomByStudentId(String studentId){

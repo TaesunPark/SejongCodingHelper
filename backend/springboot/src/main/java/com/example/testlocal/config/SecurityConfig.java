@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests() // 요청에 대한 사용권한 체크
-                .antMatchers("/login","/logout","/refreshToken","/h2-console/**", "/signup/**").permitAll()
+                .antMatchers("/login","/logout","/refreshToken","/h2-console/**", "/signup/**","/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .headers()

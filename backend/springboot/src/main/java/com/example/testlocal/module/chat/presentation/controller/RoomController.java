@@ -1,25 +1,20 @@
 package com.example.testlocal.module.chat.presentation.controller;
 
 import com.example.testlocal.module.chat.application.service.ChatService;
-import com.example.testlocal.module.chat.domain.Chat;
+import com.example.testlocal.module.chat.domain.Room;
 import com.example.testlocal.util.Constants;
 import com.example.testlocal.module.chat.application.dto.RoomDTO;
-import com.example.testlocal.module.chat.domain.Room;
 import com.example.testlocal.module.chat.application.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 //@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @CrossOrigin(origins = Constants.URL , allowCredentials = "true")
@@ -51,15 +46,6 @@ public class RoomController {
 //        return "redirect:/roomList";
 //    }
 //
-//    /**
-//     * 채팅방 리스트 보기
-//     */
-//    @GetMapping("/roomList")
-//    public String roomList(Model model) {
-//        List<Room> roomList = roomService.findAll();
-//        model.addAttribute("roomList", roomList);
-//        return "roomList";
-//    }
 //
 //    /**
 //     * 방만들기 폼
@@ -75,9 +61,21 @@ public class RoomController {
 //    }
 
 
-    @GetMapping("/room")
-    public List<Room> all() { return roomService.findAll();}
+        /**
+     * 채팅방 리스트 보기
+     */
+    @GetMapping("/rooms")
+    public ArrayList<RoomDTO> roomList(@CookieValue(name = "studentNumber") Cookie cookie) {
+        log.info("룸 정보 가져오기 실행");
+        return roomService.findAllRoomByStudentId(cookie.getValue()).getRoomDTOs();
+    }
 
+    /**
+     * 채팅방 정보 가져오기
+     * @param cookie 학번 담은 cookie 정보
+     * @param requestDTO 채팅방 제목
+     * @return
+     */
     @ResponseBody
     @PostMapping("/room")
     public String createRoom(@CookieValue(name = "studentNumber") Cookie cookie, @RequestBody RoomDTO requestDTO){
@@ -86,10 +84,11 @@ public class RoomController {
     }
 
 //
-//    @GetMapping("/room/{id}")
-//    public Room getRoom(@PathVariable Long id) {
-//        return roomService.findById(id);
-//    }
+    @GetMapping("/room/{id}")
+    public RoomDTO getRoom(@PathVariable Long id) {
+        RoomDTO roomDTO = new RoomDTO(roomService.findById(id).getTitle());
+        return roomDTO;
+    }
 //
 //    @DeleteMapping("/room")
 //    public void deleteRoom(@PathVariable Long id) { roomService.deleteRoom(id);}

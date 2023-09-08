@@ -1,24 +1,22 @@
 package com.example.testlocal.module.user.application.service.impl;
 
-import com.example.testlocal.module.user.application.service.RefreshTokenService;
 import com.example.testlocal.module.user.domain.entity.Role;
 import com.example.testlocal.module.user.domain.entity.RoleName;
 import com.example.testlocal.module.user.domain.repository.RoleRepository;
-import com.example.testlocal.util.RoleType;
 import com.example.testlocal.core.exception.ConflictException;
 import com.example.testlocal.core.exception.ErrorCode;
 import com.example.testlocal.core.exception.InvalidUserIdException;
 import com.example.testlocal.core.exception.UnauthorizedException;
 import com.example.testlocal.core.security.jwt.JwtTokenProvider;
-import com.example.testlocal.core.security.jwt.dto.JwtTokenDto;
 import com.example.testlocal.module.user.application.dto.UserDto;
-import com.example.testlocal.module.user.application.dto.request.LoginRequest;
 import com.example.testlocal.module.user.application.dto.request.UserInfoRequest;
 import com.example.testlocal.module.user.application.dto.response.UserInfoResponse;
 import com.example.testlocal.module.user.application.service.UserCheckService;
 import com.example.testlocal.module.user.domain.entity.User;
 import com.example.testlocal.module.user.domain.repository.UserRepository2;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,9 +26,13 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import java.util.*;
 
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -40,12 +42,14 @@ public class UserService {
     private final JavaMailSender javaMailSender;
     private final UserCheckService userCheckServiceImpl;
     private final RoleRepository roleRepository;
+    private final EntityManager em;
 
     public User create(UserDto requestDTO) {
         ArrayList<Role> roles = new ArrayList<>();
         Role role = new Role();
         roles.add(role);
         User user = User.builder().email(requestDTO.getEmail()).name(requestDTO.getName()).password(requestDTO.getPassword()).studentNumber(requestDTO.getStudentNumber()).roles(roles).build();
+
         return userRepository2.save(user);
     }
 
@@ -83,7 +87,9 @@ public class UserService {
         Role role = roleRepository.findByRole(RoleName.ROLE_USER);
         list.add(role);
         User user = userInfoRequest.dtoToEntity(list);
+        log.info(user.toString() + "회원가입");
         userRepository2.save(user);
+
 
         return UserInfoResponse.of(userInfoRequest.getStudentNumber(), true, "회원가입 성공하였습니다.");
     }
@@ -208,9 +214,12 @@ public class UserService {
             return 0;
         }
     }
+    public UserDto findUserByStudentNumber(String studentNumber){
 
-    public Optional<User>findUserByStudentNumber(String studentNumber){
-        return userRepository2.findByStudentNumber(studentNumber);
+        TypedQuery<User> query = em.createQuery("select u from user u where u.studentNumber = studentNumber", User.class);
+        User result = query.getSingleResult();
+        UserDto userDto = new UserDto(Optional.ofNullable(result));
+        return userDto;
     }
 
     public String findUserEmailByStudentNumber(String studentNumber){

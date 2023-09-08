@@ -28,7 +28,7 @@ public class Room extends DateTime {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<RoomUser> roomUserList;
 
     public Room(RoomDTO requestDTO) {

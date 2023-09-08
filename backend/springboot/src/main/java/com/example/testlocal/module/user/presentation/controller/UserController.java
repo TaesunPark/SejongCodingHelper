@@ -1,14 +1,21 @@
 package com.example.testlocal.module.user.presentation.controller;
 
+import com.example.testlocal.core.dto.SuccessResponse;
+import com.example.testlocal.module.user.application.dto.request.UserAvailabilityRequest;
+import com.example.testlocal.module.user.application.dto.response.UserAvailabilityResponse;
 import com.example.testlocal.util.Constants;
 import com.example.testlocal.module.user.application.dto.UserDto;
 import com.example.testlocal.module.user.application.service.impl.UserService;
 import com.example.testlocal.module.user.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -27,27 +34,9 @@ public class UserController {
     private final LoginController loginController;
 
     @GetMapping("/user")
-    public List<User> all() {
-        return userService.read();
+    public UserDto getUser(@CookieValue(name = "studentNumber") Cookie cookie){
+        return userService.findUserByStudentNumber(cookie.getValue());
     }
-
-    @ResponseBody
-    @PostMapping("/user")
-    public User createUser(@RequestBody UserDto requestDTO) {
-        return userService.create(requestDTO);
-    }
-
-    @GetMapping("/user/{id}")
-    public Optional<User> getUser(@PathVariable Long id) {
-        return userService.readOne(id);
-    }
-
-    @DeleteMapping("/user/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteAccount(id);
-        return "delete User" + id.toString();
-    }
-
 
     @PostMapping("/user/assistant")
     public Map<String, Object> findIsAssistantByStudentNumber(@CookieValue(name = "refreshToken", defaultValue = "-1") String refreshToken) {
@@ -55,8 +44,6 @@ public class UserController {
         Map<String, Object> map = userService.findByAssistant(refreshToken);
         return map;
     }
-
-
     @PostMapping("/user/userID/{studentNumber}")
     public int findUserIdByStudentNumber(@PathVariable String studentNumber) {
         return userService.findUserIdByStudentNumber(studentNumber);
@@ -84,5 +71,16 @@ public class UserController {
         String result = userService.searchPw(map.get("studentNumber"),map.get("name"),map.get("email")  + "@sju.ac.kr");
         return result;
     }
+
+    // 계정 활성화
+    // 이메일 인증번호 받기
+    // 일치하면 계정 활성화 후 비밀번호 재설정 페이지 이동
+//    @PostMapping("/user/available")
+//    public ResponseEntity<SuccessResponse<UserAvailabilityResponse>> updateUserState(UserAvailabilityRequest userAvailabilityRequest){
+//        // 일치하지 않으면, 에러 핸들링,
+//        // 일치하면 return
+//
+//    }
+
 
 }
