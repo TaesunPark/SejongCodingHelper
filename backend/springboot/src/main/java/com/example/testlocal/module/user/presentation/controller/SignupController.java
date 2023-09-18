@@ -32,17 +32,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 //@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @CrossOrigin(origins = Constants.URL , allowCredentials = "true")
-@RequestMapping("/signup")
+@RequestMapping("/api/signup")
 public class SignupController {
 
-    private final JavaMailSender javaMailSender;
     private final UserService userService;
-    private final ChatbotRoomService chatbotRoomService;
     private final EmailService emailService;
     private final UserCheckService userCheckServiceImpl;
-
-    @Value("${spring.mail.username}")
-    private String from;
 
     // 사용자에게 확인 코드 이메일 보내기
     @PostMapping("/send-email")
