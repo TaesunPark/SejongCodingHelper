@@ -29,7 +29,7 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RoleName role;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<User> userList;
 

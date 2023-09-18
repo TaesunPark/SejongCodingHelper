@@ -58,14 +58,13 @@ public class UserInfoRequest {
         this.verifedPwd = verifedPwd;
     }
     public User dtoToEntity(List<Role> roleList){
-        User user = User.builder()
+        return User.builder()
                 .passwordCount(0)
                 .email(email)
                 .roles(roleList)
                 .studentNumber(studentNumber)
                 .name(name)
                 .password(pwd).build();
-        return user;
     }
 
 }

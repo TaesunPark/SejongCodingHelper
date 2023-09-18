@@ -61,9 +61,7 @@ public class UserController {
     public String deleteUser(@CookieValue(name = "refreshToken", defaultValue = "-1") String refreshToken,
                           @RequestBody Map<String, String> map,HttpServletResponse response,HttpServletRequest request) {
 
-        String result = userService.deleteUser(refreshToken,map.get("nowPwd"));
-        loginController.logoutUser();
-        return result;
+        return userService.deleteUser(refreshToken,map.get("nowPwd"));
     }
 
     @PostMapping("/search/pw")
@@ -71,16 +69,5 @@ public class UserController {
         String result = userService.searchPw(map.get("studentNumber"),map.get("name"),map.get("email")  + "@sju.ac.kr");
         return result;
     }
-
-    // 계정 활성화
-    // 이메일 인증번호 받기
-    // 일치하면 계정 활성화 후 비밀번호 재설정 페이지 이동
-//    @PostMapping("/user/available")
-//    public ResponseEntity<SuccessResponse<UserAvailabilityResponse>> updateUserState(UserAvailabilityRequest userAvailabilityRequest){
-//        // 일치하지 않으면, 에러 핸들링,
-//        // 일치하면 return
-//
-//    }
-
 
 }

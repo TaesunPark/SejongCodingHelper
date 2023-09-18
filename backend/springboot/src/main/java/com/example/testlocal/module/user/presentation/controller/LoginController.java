@@ -28,6 +28,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = Constants.URL , allowCredentials = "true")
+@RequestMapping("/api")
 public class LoginController {
 
     private final RefreshTokenService refreshTokenService;
@@ -37,10 +38,10 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<SuccessResponse<JwtResponse>> loginUser(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication;
+
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getId(), loginRequest.getPwd());
 
-        authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

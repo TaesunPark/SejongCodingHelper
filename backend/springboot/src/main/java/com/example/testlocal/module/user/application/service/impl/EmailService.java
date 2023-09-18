@@ -1,6 +1,5 @@
 package com.example.testlocal.module.user.application.service.impl;
 
-import com.example.testlocal.core.dto.SuccessResponse;
 import com.example.testlocal.core.exception.ErrorCode;
 import com.example.testlocal.core.exception.NotFoundException;
 import com.example.testlocal.module.user.application.dto.SendEmailRequest;
@@ -10,19 +9,15 @@ import com.example.testlocal.module.user.application.dto.response.SendEmailRespo
 import com.example.testlocal.module.user.domain.repository.EmailCertificationDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.Map;
 import java.util.Random;
 
 @RequiredArgsConstructor
@@ -43,9 +38,6 @@ public class EmailService{
     }
 
     public EmailCodeResponse checkEmailAuthCode(EmailCodeRequest emailCodeRequest, HttpServletRequest request){
-//        세션으로 하는 부분 주석 처리
-//        HttpSession session = request.getSession();
-//        String authCode = (String) session.getAttribute("authCode");
         String authCode = emailCertificationDao.getCodeCertification(emailCodeRequest.getEmail());
         String inputedAuthCode = emailCodeRequest.getAuthCode();
 
